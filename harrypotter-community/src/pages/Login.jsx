@@ -72,7 +72,7 @@ const StLoginInput = styled.input`
   height: 30px;
   border: none;
   border-radius: 10px;
-  box-shadow: 5px 5px 10px #fff;
+  box-shadow: inset 5px 5px 10px #545054;
 `
 
 const StLoginButton = styled.button`
@@ -86,9 +86,10 @@ const StLoginButton = styled.button`
   font-size: 16px;
   color: white;
   background-color: #9a60f2;
-  box-shadow: 5px 5px 10px #E1F6FA;
+  box-shadow: inset 5px 5px 10px #2e2d2e;
   font-family: 'lightFont';
   font-size: 20px;
+  cursor: pointer;
 `
 
 const StForJoinBox = styled.div`
@@ -109,6 +110,7 @@ const StForJoinButton = styled.button`
   border-radius: 8px;
   box-shadow: inset 5px 2px 10px #acacb2;
   font-family: 'lightFont';
+  cursor: pointer;
 `
 
 
