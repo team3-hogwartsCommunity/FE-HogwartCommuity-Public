@@ -44,6 +44,7 @@ const HeaddFontStyle = styled.div`
 const SubFontStyle = styled.div`
   color: white;
   font-size: 24px;
+  font-family: 'lightFont';
 `
 const StContainer = styled.div`
   height: 100vh;
@@ -52,17 +53,18 @@ const StContainer = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: black;
-  font-family: 'lightFont';
+  font-family: 'harrypotterFont';
 `
 const StLoignBox = styled.div`
   color: white;
   width: auto;
   height: auto;
   display: flex;
+  font-family: 'lightFont';
   flex-direction: row;
 `
 const StLoginSpan = styled.div`
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
 `
 const StLoginInput = styled.input`

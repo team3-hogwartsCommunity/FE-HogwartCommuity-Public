@@ -16,3 +16,8 @@ code {
   font-family : 'lightFont';
   src: url('./font/lightFont.ttf')
 }
+
+@font-face {
+  font-family : 'harrypotterFont';
+  src: url('./font/harrypotter.TTF')
+}
