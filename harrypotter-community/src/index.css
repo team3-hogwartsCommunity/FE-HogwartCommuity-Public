@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family : 'lightFont';
+  src: url('./font/lightFont.ttf')
+}
+
+@font-face {
+  font-family : 'harrypotterFont';
+  src: url('./font/harrypotter.TTF')
+}
