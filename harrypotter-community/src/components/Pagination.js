@@ -67,7 +67,7 @@ function Pagination() {
                     <p key={item.id}>{item.title}</p>
                 ))
             }
-
+            
             {/* 페이지네이션 구현 영역 */}
             <span onClick={prevPageHandler}>Prev</span>
             <p>

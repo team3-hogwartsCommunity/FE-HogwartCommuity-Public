@@ -7,6 +7,7 @@ import Pagination from './components/Pagination'
 import { getBoard } from './axios/api'
 import WriteBoard from './components/WriteBoard'
 import FullBoard from './components/FullBoard'
+import Router from './shared/Router'
 
 function App() {
   const queryClient = new QueryClient()
@@ -18,7 +19,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* <Pagination/> */}
-      <FullBoard/>
+      <Router/>
     </QueryClientProvider>
    
    
