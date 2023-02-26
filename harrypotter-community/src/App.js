@@ -5,6 +5,8 @@ import Header from './components/Header'
 import axios from 'axios'
 import Pagination from './components/Pagination'
 import { getBoard } from './axios/api'
+import WriteBoard from './components/WriteBoard'
+import FullBoard from './components/FullBoard'
 
 function App() {
   const queryClient = new QueryClient()
@@ -15,11 +17,12 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Pagination/>
+      {/* <Pagination/> */}
+      <FullBoard/>
     </QueryClientProvider>
-
    
-
+   
+    
 
   )
 }

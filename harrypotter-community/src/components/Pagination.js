@@ -4,11 +4,14 @@ import { useQuery, useQueryClient } from 'react-query'
 import { getBoard } from '../axios/api';
 import './pagination.css'
 
+
 function Pagination() {
 
+    // 이제는 필요 없음.. 라이브러리가 지원함..
     const queryClient = useQueryClient();
     const { isLoading, isError, data } = useQuery(['todos'], getBoard)
 
+    
 
     // 한 페이지당 보여질 데이터 수 상태
     // 데이터 수 조절하고 싶으면 useState 기본값 변경
@@ -57,12 +60,15 @@ function Pagination() {
     }
 
     return (
+        // 테이블이 보여질 영역
         <div>
             {
                 visibleBoard.map((item) => (
                     <p key={item.id}>{item.title}</p>
                 ))
             }
+
+            {/* 페이지네이션 구현 영역 */}
             <span onClick={prevPageHandler}>Prev</span>
             <p>
                 {pages.map(
