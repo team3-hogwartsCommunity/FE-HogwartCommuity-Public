@@ -1,10 +1,17 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
+
 import Header from './components/Header'
 
 
 import Router from './shared/Router'
+
+import Join from './pages/Join'
+import Login from './pages/Login'
+import Router from './shared/Router'
+
+
 
 function App() {
   const queryClient = new QueryClient()
@@ -15,6 +22,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+
       {/* <Pagination/> */}
       <Header></Header>
       <Router/>
@@ -22,6 +30,10 @@ function App() {
    
    
     
+
+
+      <Router />
+    </QueryClientProvider>
 
   )
 }
