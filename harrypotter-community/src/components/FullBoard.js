@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query';
 import { getBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
-import Header from './Header';
+import './boardPaging.css'
+import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
+
 
 
 // 테이블 구현
@@ -65,7 +67,7 @@ function FullBoard() {
           </tbody>
         </table>
         {/* 페이지네이션 재구현 */}
-        <nav className='d-flex justify-content-center'>
+        {/* <nav className='d-flex justify-content-center'>
           <ul className='pagination'>
             {
               pages.map(
@@ -75,7 +77,17 @@ function FullBoard() {
               )
             }
           </ul>
-        </nav>
+        </nav> */}
+        <Pagination
+          activePage={currentPage}
+          itemsCountPerPage={10}
+          totalItemsCount={data.data.length}
+          pageRangeDisplayed={5}
+          prevPageText={"<"}
+          nextPageText={">"}
+          onChange={paginationHandler}
+        
+        />
       </div>
     </>
 
