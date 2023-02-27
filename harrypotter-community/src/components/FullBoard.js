@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { useQuery } from 'react-query';
-import { getBoard } from '../axios/api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { addBoard, getBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import useInput from '../hooks/useInput';
 
 const BoardContainer = styled.div`
     display: flex;
@@ -32,9 +33,17 @@ const BoardItem = styled.div`
 function FullBoard() {
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [title, onChangeTitle, resetTitle] = useInput();
+  const [contents, onChangeContents, resetContents] = useInput();
+  const [dormitory, onChangeDormitory, resetDormitory] = useInput();
+  const queryClient = useQueryClient()
   const { isLoading, isError, data } = useQuery(['board'],getBoard)
 
-
+  const addMutation = useMutation(addBoard,{
+    onSuccess : () => {
+      queryClient.invalidateQueries('board')
+    }
+  })
  
   if (isLoading) {
     return <h1>로딩중...</h1>
@@ -42,6 +51,8 @@ function FullBoard() {
   if (isError) {
     return <h1>Error...</h1>
   }
+  
+ 
 
   console.log(data)
 
@@ -50,21 +61,34 @@ function FullBoard() {
   // 1, 10 , 11, 20, 21, 30
   const boardData = data.data.slice((currentPage-1) * 8, (currentPage * 8))
 
-  const length =Math.ceil(data.data.length/10)
-
-  const pages = [...Array(length + 1).keys()].slice(1);
+  
+ 
   
   const paginationHandler = (i) => {
     
     setCurrentPage(i)
   }
-  
 
+  const addDormBoard = (e) => {
+    e.preventDefault();
+    addMutation.mutate({
+      title,
+      contents,
+      dormitory
+    })
+  }
+  
+  
 
 
   return (
     <>
-      
+      <form onSubmit={addDormBoard}> 
+        <input type="text" name='title' value={title} onChange={onChangeTitle}/>
+        <input type="contents" name='contents' value={contents} onChange={onChangeContents}/>
+        <input type="dormitory" name='dormitory' value={dormitory} onChange={onChangeDormitory}/>
+        <button type='submit'>추가 테스트</button>
+      </form>
       <div>
         {/* <table className='table'>
           <thead>
@@ -92,10 +116,10 @@ function FullBoard() {
         {
           boardData.map((item) => (
             <BoardItem key={item.id}>
-              <h2>{item.id}</h2>
-              <p>{item.title}</p>
+              <h2>{item.title}</h2>
+              <p>{item.contents}</p>
               <button>좋아요</button>
-              <Link to={`/todolist/${item.id}`}>보기</Link>
+              <Link to={`/board/${item.id}`}>보기</Link>
             </BoardItem>
           ))
         }

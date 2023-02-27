@@ -11,7 +11,7 @@ function Router() {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<FullBoard/>}></Route>
-                <Route path='/todolist/:id' element={<SingleBoard/>}></Route>
+                <Route path='/board/:id' element={<SingleBoard/>}></Route>
             </Routes>
         </BrowserRouter>
     </>
