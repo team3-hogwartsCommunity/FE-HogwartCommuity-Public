@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DormBoard from '../components/DormBoard'
 import FullBoard from '../components/FullBoard'
-import Pagination from '../components/Pagination'
+
 import SingleBoard from '../pages/SingleBoard'
 
 function Router() {

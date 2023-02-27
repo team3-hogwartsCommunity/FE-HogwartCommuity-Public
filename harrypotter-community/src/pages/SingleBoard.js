@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -39,18 +39,20 @@ const AddCommentContainer = styled.div`
   border: 1px solid red;
   position: relative;
 `
-const AddCommentArea = styled.textarea`
+const AddCommentTextArea = styled.textarea`
   width: 1000px;
   height: 80px;
   padding: 12px;
   border: 1px solid black;
   background: #fff;
+  resize: none;
 `
 const AddCommentButtonContainer = styled.div`
 
 `
 function SingleBoard() {
-  const { isLoading, isError, data } = useQuery(['todos'], getBoard)
+  const { isLoading, isError, data } = useQuery(['board'], getBoard)
+  const [comment, setComment] = useState();
   const params = useParams()
   if (isLoading) {
     return <h1>로딩중...</h1>
@@ -64,16 +66,29 @@ function SingleBoard() {
 
   const todo = boardData.find((element) => String(element.id) === params.id)
 
+  const onChangeComment = (e) => {
+    setComment(e.target.value)
+  }
+
+  const onCommentSubmitHandler = (e) => {
+    e.preventDefault();
+    // 여기서 댓글 등록 및 db에 추가 구현
+    console.log(comment)
+    setComment('')
+  }
+
 
   return (
     <>
 
       <SingleBoardContainer>
         {/* 좋아요, 글id, 글 제목/내용, 생성시간, 댓글 */}
+        <h3>
         <SingleBoardTitle>
           {/* 글 제목 영역 */}
-          <h3 style={{}}>글 제목</h3>
+          글 제목
         </SingleBoardTitle>
+        </h3>
 
         <SingleBoardContent>
           {/* 글 내용 영역 */}
@@ -82,14 +97,16 @@ function SingleBoard() {
         </SingleBoardContent>
       </SingleBoardContainer>
       <CommentContainer>
-        <SingleComment>닉네임: 댓글내용 1</SingleComment>
+        <SingleComment>닉네임: 댓글 1</SingleComment>
         <SingleComment>닉네임: 댓글내용 2</SingleComment>
         <SingleComment>닉네임: 댓글내용 3</SingleComment>
         <AddCommentContainer>
-          <AddCommentArea></AddCommentArea>
+          <form onSubmit={onCommentSubmitHandler}>
+          <AddCommentTextArea onChange={onChangeComment} placeholder="댓글을 입력해주세요"></AddCommentTextArea>
           <AddCommentButtonContainer>
             <button>등록</button>
           </AddCommentButtonContainer>
+          </form>
         </AddCommentContainer>
       </CommentContainer>
     </>

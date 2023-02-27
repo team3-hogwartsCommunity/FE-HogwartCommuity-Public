@@ -32,7 +32,7 @@ const BoardItem = styled.div`
 function FullBoard() {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const { isLoading, isError, data } = useQuery(['todos'],getBoard)
+  const { isLoading, isError, data } = useQuery(['board'],getBoard)
 
 
  
@@ -43,6 +43,7 @@ function FullBoard() {
     return <h1>Error...</h1>
   }
 
+  console.log(data)
 
   
 
