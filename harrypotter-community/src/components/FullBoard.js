@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useQuery, useQueryClient } from 'react-query';
+import React, { useState } from 'react'
+import { useQuery } from 'react-query';
 import { getBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import Header from './Header';
@@ -30,6 +30,7 @@ function FullBoard() {
   const boardData = data.data.slice((currentPage-1) * 10, (currentPage * 10))
 
   const length =Math.ceil(data.data.length/10)
+
   const pages = [...Array(length + 1).keys()].slice(1);
   
   const paginationHandler = (i) => {
@@ -39,7 +40,7 @@ function FullBoard() {
 
   return (
     <>
-      <Header></Header>
+      
       <div>
         <table className='table'>
           <thead>
