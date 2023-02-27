@@ -1,26 +1,109 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { SignUpData } from "../axios/api";
 
 function Join() {
+
+  // 회원가입 완료 후 시험으로 보내줄 네비함수 선언
+  const navigate = useNavigate();
+  // 회원가입 요청과정의 상태 관리
+  const [isLoading, serIsLoading] = useState(false)
+
+  const initialState = {
+    userId: '',
+    password: '',
+    passwordCheck: ''
+  };
+  console.log(initialState)
+
+  const [user, setUser] = useState(initialState);
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target
+    setUser({
+      ...user,
+      [name] : value
+    })
+
+    console.log('name', name, 'value', value)
+  };
+
+  const { mutate } = useMutation(SignUpData, {
+    onSuccess: () => {
+      alert('회원가입 성공!')
+    },
+    onError : () => {
+      alert('회원가입 실패!')
+    }
+  })
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    alert(`id: ${user.userId}, password : ${user.password}`)
+
+
+    if ( !(user.userId === "" && user.password === "")) {
+      mutate({username : user.userId, password : user.password})
+      console.log(user)
+    } else {
+      alert('빈칸없이 채워주세요!')
+    }
+    // 서버로 회원가입 데이터 보내기
+
+
+    // try {
+    //   await axios.post(`process.env.`, {
+    //     userId : user.userId,
+    //     password : user.password
+    //   })
+    //   window.alert('회원가입 성공!')
+
+    //   // 무사히 서버에 보냈으면 ok값 받고 입학시험으로 보내기
+    //   navigate('/');
+      
+    // } catch(error) {
+    //   window.alert(error)
+    // }
+    
+  }
+
   return (
     <div>
       <JoinContainer>
         <JoinFont>Get ready for Freshmen Oriebtation!!</JoinFont>
-        <JoinBox>
+        <JoinFormBox onSubmit={onSubmitHandler}>
           <JoinLineCenter>
             <JoinLabel>ID</JoinLabel>
-            <JoinInput />
+            <JoinInput 
+              name='userId'
+              type='text'
+              value={user.userId}
+              placeholder='아이디'
+              onChange={onChangeHandler}/>
           </JoinLineCenter>
           <JoinLineCenter>
             <JoinLabel>PASSWORD</JoinLabel>
-            <JoinInput />
+            <JoinInput
+              name='password'
+              type='password'
+              value={user.password}
+              placeholder='비밀번호'
+              onChange={onChangeHandler}/>
           </JoinLineCenter>
           <JoinLineCenter>
             <JoinLabel>CHECK PW</JoinLabel>
-            <JoinInput />
+            <JoinInput
+              name='passwordCheck'
+              type='password'
+              value={user.passwordCheck}
+              placeholder='비밀번호 확인'
+              onChange={onChangeHandler}/>
           </JoinLineCenter>
           <JoinButton>입학 완료</JoinButton>å
-        </JoinBox>
+        </JoinFormBox>
       </JoinContainer>
     </div>
   );
@@ -46,7 +129,7 @@ const JoinContainer = styled.div`
 `;
 
 
-const JoinBox = styled.form`
+const JoinFormBox = styled.form`
   width: 700px;
   height: auto;
   display: flex;

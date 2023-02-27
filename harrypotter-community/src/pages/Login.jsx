@@ -1,20 +1,75 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 
 function Login() {
+
+  const navigate = useNavigate();
+
+  const initialState = {
+    userId : '',
+    password : ''
+  }
+
+  const [login, setLogin] = useState(initialState);
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target
+
+    setLogin({
+      ...login,
+      [name] : value
+    })
+  }
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    
+    if (login.userId !== '' && login.password !== '') {
+      alert(`id: ${login.userId}, password : ${login.password}`)
+
+    //   try {
+    //     const { data } = await axios.post (
+    //       `${http://52.79.148.222:8080}/api/auth/login`, login
+    //     )
+    //     // intercept 사용하기 -> header에서 꺼내와야할 경우
+    //     // 1. 쿠키에 토큰 저장, 그전에 새로운 경로에 쿠키 생성
+    //     cookie.set('access_token', data.token)
+
+    //     // 2. 로컬저장소에 토큰 저장
+    //     localStorage.setItem('Access_Token', data.token)
+
+    //     // 메인페이지로 이동
+    //   } catch(error) {
+    //     window.alert(error)
+    //   }
+    // } else {
+    //   alert('아이디와 비밀번호를 `올바르게 입력해주세요!')
+  }
+
+  }
   return (
     <div>
       <StContainer>
         <HeaddFontStyle>welcome to Hogwarts!</HeaddFontStyle>
-        <StLoignBox>
+        <StLoignBox onSubmit={onSubmitHandler}>
           <div>
             <label>
               <StLoginSpan>ID</StLoginSpan>
-              <StLoginInput/>
+              <StLoginInput
+                name='userId'
+                type='text'
+                placeholder='아이디'
+                onChange={onChangeHandler}/>
             </label>
             <label>
               <StLoginSpan>PASSWORD</StLoginSpan>
-              <StLoginInput/>
+              <StLoginInput
+                name='password'
+                type='password'
+                placeholder='아이디'
+                onChange={onChangeHandler}/>
             </label>
           </div>
           <StLoginButton>로그인</StLoginButton>
@@ -22,7 +77,9 @@ function Login() {
         <StForJoinBox>
           <StForJoinInner>
             <SubFontStyle>아직 회원이 아니신가요?</SubFontStyle>
-            <StForJoinButton>신입생 등록</StForJoinButton>
+            <StForJoinButton onClick={() => {
+              navigate('/join')
+            }}>신입생 등록</StForJoinButton>
           </StForJoinInner>
         </StForJoinBox>
       </StContainer>
@@ -55,7 +112,7 @@ const StContainer = styled.div`
   background-color: black;
   font-family: 'harrypotterFont';
 `
-const StLoignBox = styled.div`
+const StLoignBox = styled.form`
   color: white;
   width: auto;
   height: auto;
