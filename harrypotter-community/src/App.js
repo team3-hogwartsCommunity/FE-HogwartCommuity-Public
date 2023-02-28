@@ -1,16 +1,40 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import Join from './pages/Join'
-import Login from './pages/Login'
+
+
+import Header from './components/Header'
+
+
 import Router from './shared/Router'
 
-const queryClient = new QueryClient();
+import Join from './pages/Join'
+import Login from './pages/Login'
+
+
+
 
 function App() {
+  const queryClient = new QueryClient()
+
+
+  
+  // 컴포넌트 마운트 되면 데이터 불러옴
+
   return (
+    <>
     <QueryClientProvider client={queryClient}>
-      <Router />
+
+      {/* <Pagination/> */}
+      <Header></Header>
+      <Router/>
     </QueryClientProvider>
+    </>
+   
+   
+    
+
+
+      
   )
 }
 
