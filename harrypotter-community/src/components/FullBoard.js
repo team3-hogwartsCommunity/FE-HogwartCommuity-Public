@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addBoard, getBoard } from '../axios/api';
+import { addBoard, getBoard, deleteBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import './boardPaging.css'
 import Pagination from 'react-js-pagination';
@@ -45,6 +45,15 @@ function FullBoard() {
     }
   })
  
+  const deleteMutation = useMutation(deleteBoard, {
+    onSuccess : () =>{
+      queryClient.invalidateQueries('board')
+    }
+  })
+
+
+
+
   if (isLoading) {
     return <h1>로딩중...</h1>
   }
@@ -77,7 +86,10 @@ function FullBoard() {
       dormitory
     })
   }
-  
+  const deleteDormBoard = (boardId) => {
+    
+    deleteMutation.mutate(boardId)
+  }
   
 
 
@@ -90,28 +102,6 @@ function FullBoard() {
         <button type='submit'>추가 테스트</button>
       </form>
       <div>
-        {/* <table className='table'>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              
-              <th>조회수</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              boardData.map((item) => (
-                <tr key={item.id}>
-                 
-                  <td>{item.id}</td>
-                  <td><Link to={`/todolist/${item.id}`}>{item.title}</Link></td>
-                  <td>{item.userId}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table> */}
         <BoardContainer>
         {
           boardData.map((item) => (
@@ -119,7 +109,12 @@ function FullBoard() {
               <h2>{item.title}</h2>
               <p>{item.contents}</p>
               <button>좋아요</button>
+              <button>수정</button>
+              <button onClick={() => {deleteDormBoard(item.id)}}>삭제</button>
+              
+              <div>
               <Link to={`/board/${item.id}`}>보기</Link>
+              </div>
             </BoardItem>
           ))
         }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { addComment, getBoard, getSingleBoard } from '../axios/api'
+import { addComment, deleteComment, getBoard, getSingleBoard } from '../axios/api'
 import Header from '../components/Header'
 import useInput from '../hooks/useInput'
 
@@ -65,6 +65,11 @@ function SingleBoard() {
       queryClient.invalidateQueries('board')
     }
   })
+
+  const deleteMutation = useMutation(deleteComment,{
+    onSuccess : () => 
+    queryClient.invalidateQueries('board')
+  })
   if (isLoading) {
     return <h1>로딩중...</h1>
   }
@@ -95,6 +100,13 @@ function SingleBoard() {
     resetComment();
   }
 
+  const onDeleteCommentHandler = (boardId) => {
+    deleteMutation.mutate(boardId)
+  }
+
+  const onEditCommentHandler = () => {
+    
+  }
 
   return (
     <>
@@ -121,7 +133,8 @@ function SingleBoard() {
             <>
               <SingleComment key={item.id}>
                 기숙사명 위치 : {item.contents}
-                
+                <button onClick={() => {onDeleteCommentHandler({boardId: params.id, commentId: item.id})}}>삭제</button>
+                <button>수정</button>
               </SingleComment>
             </>
           ))
