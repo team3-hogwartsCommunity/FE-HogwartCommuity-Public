@@ -38,6 +38,7 @@ export const addComment = async (newComment) => {
     await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/board/${newComment.id}/comment`, {contents:newComment.comment})
 }
 
-export const deleteComment = async (commentId) => {
-    await axios.delete()
+export const deleteComment = async ({boardId, commentId}) => {
+    console.log("boardId:" , boardId, "commentId:"  , commentId)
+    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/board/${boardId}/comment/${commentId}`)
 }
