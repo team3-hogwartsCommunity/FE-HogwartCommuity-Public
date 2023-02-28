@@ -52,14 +52,16 @@ const AddCommentButtonContainer = styled.div`
 
 `
 function SingleBoard() {
-  const { isLoading, isError, data } = useQuery(['board'], getSingleBoard)
-  const [comment, onChangeComment, resetComment] = useInput();
   const params = useParams()
+  console.log(params)
+  const { isLoading, isError, data } = useQuery(['board', params.id], () => getSingleBoard(params.id))
+  const [comment, onChangeComment, resetComment] = useInput();
+  
   const queryClient = useQueryClient()
 
 
-  const addMutation = useMutation(addComment,{
-    onSuccess : () => {
+  const addMutation = useMutation(addComment, {
+    onSuccess: () => {
       queryClient.invalidateQueries('board')
     }
   })
@@ -76,18 +78,18 @@ function SingleBoard() {
 
   const boardData = data.data
   const boardComment = boardData.commentList
-  
+
   console.log(boardComment)
-  
+
   // console.log(boardComment)
 
-  
+
 
   const onCommentSubmitHandler = (e) => {
     e.preventDefault();
     // 여기서 댓글 등록 및 db에 추가 구현
     addMutation.mutate({
-      id : boardData.id,
+      id: boardData.id,
       comment
     })
     resetComment();
@@ -96,38 +98,41 @@ function SingleBoard() {
 
   return (
     <>
-      
+
       <SingleBoardContainer>
         {/* 좋아요, 글id, 글 제목/내용, 생성시간, 댓글 */}
         <h3>
-        <SingleBoardTitle>
-          {/* 글 제목 영역 */}
-          {boardData.title}
-        </SingleBoardTitle>
+          <SingleBoardTitle>
+            {/* 글 제목 영역 */}
+            {boardData.title}
+          </SingleBoardTitle>
         </h3>
 
         <SingleBoardContent>
           {/* 글 내용 영역 */}
           <h3>{boardData.contents}</h3>
-          
+
         </SingleBoardContent>
       </SingleBoardContainer>
       <CommentContainer>
-        
-       {
-        boardComment.map((item) => (
-          <SingleComment key={item.id}>
-            기숙사명 위치 : {item.contents}
-          </SingleComment>
-        ))
-       }
-      
+
+        {
+          boardComment.map((item) => (
+            <>
+              <SingleComment key={item.id}>
+                기숙사명 위치 : {item.contents}
+                
+              </SingleComment>
+            </>
+          ))
+        }
+
         <AddCommentContainer>
           <form onSubmit={onCommentSubmitHandler}>
-          <AddCommentTextArea onChange={onChangeComment}  value={comment}placeholder="댓글을 입력해주세요"></AddCommentTextArea>
-          <AddCommentButtonContainer>
-            <button>등록</button>
-          </AddCommentButtonContainer>
+            <AddCommentTextArea onChange={onChangeComment} value={comment} placeholder="댓글을 입력해주세요"></AddCommentTextArea>
+            <AddCommentButtonContainer>
+              <button>등록</button>
+            </AddCommentButtonContainer>
           </form>
         </AddCommentContainer>
       </CommentContainer>
