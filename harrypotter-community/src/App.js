@@ -25,7 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
 
       {/* <Pagination/> */}
-      <Header></Header>
+      {/* <Header></Header> */}
       <Router/>
     </QueryClientProvider>
     </>

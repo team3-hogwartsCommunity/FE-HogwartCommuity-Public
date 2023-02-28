@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router'
 import styled from 'styled-components'
-import { LoginData } from '../axios/api';
+import { instance, LoginData } from '../axios/api';
 
 function Login() {
 
@@ -29,6 +29,8 @@ function Login() {
     onSuccess : () => {
       alert('로그인 성공!')
       
+      navigate('board')
+      
     },
     onError : () => {
       alert('로그인 실패!')
@@ -40,7 +42,20 @@ function Login() {
     
     if (!(login.username === '' && login.password === '')) {
       alert(`id: ${login.username}, password : ${login.password}`)
-      mutate(login)
+
+      // 회원가입 api에 request값 넣어주기
+      mutate(login) 
+
+      // 회원가입 통신 후 토큰 저장
+      instance.interceptors.response.use(
+        function (response) {
+          const token = response.headers.authorization.split(' ')
+          console.log(token[1])
+          localStorage.setItem('Access_Token', token[1])
+          console.log(localStorage.getItem('Access_Token'))
+          return response;
+        }
+      )
 
   }
 
@@ -51,22 +66,18 @@ function Login() {
         <HeaddFontStyle>welcome to Hogwarts!</HeaddFontStyle>
         <StLoignBox onSubmit={onSubmitHandler}>
           <div>
-            <label>
-              <StLoginSpan>ID</StLoginSpan>
-              <StLoginInput
-                name='username'
-                type='text'
-                placeholder='아이디'
-                onChange={onChangeHandler}/>
-            </label>
-            <label>
-              <StLoginSpan>PASSWORD</StLoginSpan>
-              <StLoginInput
-                name='password'
-                type='password'
-                placeholder='아이디'
-                onChange={onChangeHandler}/>
-            </label>
+            <StLoginSpan>ID</StLoginSpan>
+            <StLoginInput
+              name='username'
+              type='text'
+              placeholder='아이디'
+              onChange={onChangeHandler}/>
+            <StLoginSpan>PASSWORD</StLoginSpan>
+            <StLoginInput
+              name='password'
+              type='password'
+              placeholder='비밀번호'
+              onChange={onChangeHandler}/>
           </div>
           <StLoginButton>로그인</StLoginButton>
         </StLoignBox>
@@ -92,6 +103,7 @@ const HeaddFontStyle = styled.div`
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  font-family: 'harrypotterFont';
 `
 
 const SubFontStyle = styled.div`
@@ -106,7 +118,6 @@ const StContainer = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: black;
-  font-family: 'harrypotterFont';
 `
 const StLoignBox = styled.form`
   color: white;
@@ -121,10 +132,12 @@ const StLoginSpan = styled.div`
   font-weight: 500;
 `
 const StLoginInput = styled.input`
+  color: black;
   width: 300px;
   height: 30px;
   border: none;
   border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif;
   box-shadow: inset 5px 5px 10px #545054;
 `
 
