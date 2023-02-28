@@ -37,6 +37,7 @@ function Join() {
     },
     onError : () => {
       alert('회원가입 실패!')
+      console.log(mutate)
     }
   })
 
