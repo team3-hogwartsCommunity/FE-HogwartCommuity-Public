@@ -46,28 +46,11 @@ function Join() {
 
 
     if ( !(user.userId === "" && user.password === "")) {
-      mutate({username : user.userId, password : user.password})
+      mutate({username : user.userId, password : user.password, dormitory : 'Gryffindor'})
       console.log(user)
     } else {
       alert('빈칸없이 채워주세요!')
     }
-    // 서버로 회원가입 데이터 보내기
-
-
-    // try {
-    //   await axios.post(`process.env.`, {
-    //     userId : user.userId,
-    //     password : user.password
-    //   })
-    //   window.alert('회원가입 성공!')
-
-    //   // 무사히 서버에 보냈으면 ok값 받고 입학시험으로 보내기
-    //   navigate('/');
-      
-    // } catch(error) {
-    //   window.alert(error)
-    // }
-    
   }
 
   return (

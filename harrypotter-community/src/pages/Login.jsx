@@ -1,14 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router'
 import styled from 'styled-components'
+import { LoginData } from '../axios/api';
 
 function Login() {
 
   const navigate = useNavigate();
 
   const initialState = {
-    userId : '',
+    username : '',
     password : ''
   }
 
@@ -23,29 +25,23 @@ function Login() {
     })
   }
 
+  const { mutate } = useMutation(LoginData, {
+    onSuccess : () => {
+      alert('로그인 성공!')
+      
+    },
+    onError : () => {
+      alert('로그인 실패!')
+    }
+  })
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     
-    if (login.userId !== '' && login.password !== '') {
-      alert(`id: ${login.userId}, password : ${login.password}`)
+    if (!(login.username === '' && login.password === '')) {
+      alert(`id: ${login.username}, password : ${login.password}`)
+      mutate(login)
 
-    //   try {
-    //     const { data } = await axios.post (
-    //       `${http://52.79.148.222:8080}/api/auth/login`, login
-    //     )
-    //     // intercept 사용하기 -> header에서 꺼내와야할 경우
-    //     // 1. 쿠키에 토큰 저장, 그전에 새로운 경로에 쿠키 생성
-    //     cookie.set('access_token', data.token)
-
-    //     // 2. 로컬저장소에 토큰 저장
-    //     localStorage.setItem('Access_Token', data.token)
-
-    //     // 메인페이지로 이동
-    //   } catch(error) {
-    //     window.alert(error)
-    //   }
-    // } else {
-    //   alert('아이디와 비밀번호를 `올바르게 입력해주세요!')
   }
 
   }
@@ -58,7 +54,7 @@ function Login() {
             <label>
               <StLoginSpan>ID</StLoginSpan>
               <StLoginInput
-                name='userId'
+                name='username'
                 type='text'
                 placeholder='아이디'
                 onChange={onChangeHandler}/>
