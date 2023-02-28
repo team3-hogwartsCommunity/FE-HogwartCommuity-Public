@@ -9,7 +9,7 @@ import Router from './shared/Router'
 
 import Join from './pages/Join'
 import Login from './pages/Login'
-import Router from './shared/Router'
+
 
 
 
@@ -21,20 +21,20 @@ function App() {
   // 컴포넌트 마운트 되면 데이터 불러옴
 
   return (
+    <>
     <QueryClientProvider client={queryClient}>
 
       {/* <Pagination/> */}
       <Header></Header>
       <Router/>
     </QueryClientProvider>
+    </>
    
    
     
 
 
-      <Router />
-    </QueryClientProvider>
-
+      
   )
 }
 
