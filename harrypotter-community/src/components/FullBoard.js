@@ -89,7 +89,7 @@ function FullBoard() {
 
   return (
     <>
-      <Header/>
+      <Header></Header>
       {/* <form onSubmit={addDormBoard}> 
         <input type="text" name='title' value={title} onChange={onChangeTitle}/>
         <input type="contents" name='contents' value={contents} onChange={onChangeContents}/>

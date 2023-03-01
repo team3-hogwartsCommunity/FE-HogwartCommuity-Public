@@ -2,9 +2,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import jwtDecode from 'jwt-decode'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
+
 import { token } from '../axios/api'
 
 const DormList = styled.div`
@@ -29,42 +29,11 @@ const DormName = styled.button`
 
 function Header() {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const goCreateBoard = () => {
-    navigate('/create_post')
-  }
-  return (
-    <>
-    <HeaderBox>
-      <HeaderRow>
-        <TitleFont>
-          Hogwarts Board
-        </TitleFont>
-        <div>
-        <HeaderButton onClick={goCreateBoard}>writing</HeaderButton>
-        <HeaderButton>Logout</HeaderButton>
-        </div>
-      </HeaderRow>
-      <DormList>
-        <DormName color='#8b0a0d'>
-          <h2>Gryffindor</h2>
-        </DormName>
-        <DormName color='#043089'>
-          <h2>Ravenclaw</h2>
-        </DormName>
-        <DormName color='#9cce05'>
-          <h2>Huffflepuff</h2>
-        </DormName>
-        <DormName color='#045633'>
-          <h2>Slytherin</h2>
-        </DormName>
-      </DormList>
-    </HeaderBox>
-    </>
-  )
+
     const [dormState, setDormState] = useState();
-    
+
     const onSetDormStateHandler = (e) => {
         setDormState(e.target.innerText)
     }
@@ -76,33 +45,44 @@ function Header() {
     }, [])
 
     const onMakeBoardHandler = () => {
-        if(decoded_token.auth !== dormState){
-            alert('글쓰기 권한이 없습니다.')   
-        }else{
-            window.location.replace("create_post")
+        if (decoded_token.auth !== dormState) {
+            alert('글쓰기 권한이 없습니다.')
+        } else {
+            navigate('/create_post')
         }
+        return (
+            <>
+                <HeaderBox>
+                    <HeaderRow>
+                        <TitleFont>
+                            Hogwarts Board
+                        </TitleFont>
+                        <div>
+                            <HeaderButton onClick={onMakeBoardHandler}>writing</HeaderButton>
+                            <HeaderButton>Logout</HeaderButton>
+                        </div>
+                    </HeaderRow>
+                    <DormList>
+                        <DormName color='#8b0a0d' onClick={onSetDormStateHandler}>
+                            <h2>Gryffindor</h2>
+                        </DormName>
+                        <DormName color='#043089' onClick={onSetDormStateHandler}>
+                            <h2>Ravenclaw</h2>
+                        </DormName>
+                        <DormName color='#9cce05' onClick={onSetDormStateHandler}>
+                            <h2>Huffflepuff</h2>
+                        </DormName>
+                        <DormName color='#045633' onClick={onSetDormStateHandler}>
+                            <h2>Slytherin</h2>
+                        </DormName>
+                    </DormList>
+                </HeaderBox>
+            </>
+        )
+
     }
     // console.log(dormState)
-    return (
-        <>
-            <h1>Domitory Board</h1>
-            <button onClick={onMakeBoardHandler}>글 작성하기</button>
-            <DormList>
-                <DormNameGrif>
-                    <h2 onClick={onSetDormStateHandler}>Gryffindor</h2>
-                </DormNameGrif>
-                <DormNameLev>
-                    <h2 onClick={onSetDormStateHandler}>Ravenclaw</h2>
-                </DormNameLev>
-                <DormNameHuf>
-                    <h2 onClick={onSetDormStateHandler}>Hufflepuff</h2>
-                </DormNameHuf>
-                <DormNameSli>
-                    <h2 onClick={onSetDormStateHandler}>Slytherin</h2>
-                </DormNameSli>
-            </DormList>
-        </>
-    )
+
 }
 
 const HeaderBox = styled.div`
