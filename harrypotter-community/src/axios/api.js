@@ -4,18 +4,30 @@ const token = localStorage.getItem('Access_Token')
 
 export const instance = axios.create({
   baseURL: 'http://52.79.148.222:8080',
-  headers: { Authorization : token },
+  // headers: { Authorization : token },
   withCredentials: true
 })
-// instance.interceptors.response.use(
-//   function (response) {
-//     const token = response.headers.authorization.split(' ')
-//     console.log(token[1])
-//     localStorage.setItem('Access_Token', token[1])
-//     console.log(localStorage.getItem('Access_Token'))
-//     return response;
-//   }
-// )
+
+instance.interceptors.request.use(
+  function(config) {
+    const token = localStorage.getItem('Access_Token');
+    config.headers.Authorization = token;
+    return config
+  }
+)
+instance.interceptors.response.use(
+  function (response) {
+    console.log(response)
+    const token = response.headers.authorization
+    if (token) {
+      const _token = token.split(' ')
+      console.log(_token[1])
+      localStorage.setItem('Access_Token', _token[1])
+      console.log(localStorage.getItem('Access_Token'))
+    }
+    return response;
+  }
+)
 
 // 회원가입 api
 export async function SignUpData(userInfo) {
@@ -27,8 +39,9 @@ export async function SignUpData(userInfo) {
 
 // 로그인 api
 export async function LoginData(userInfo) {
-  const { data } = await instance.post('/api/user/login', userInfo)
-  console.log('data')
+  const data = await instance.post('/api/user/login', userInfo)
+  const apiToken = data.headers.get('authorization')
+  console.log('data', apiToken)
   return data
 }
 

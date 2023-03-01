@@ -45,18 +45,6 @@ function Login() {
 
       // 회원가입 api에 request값 넣어주기
       mutate(login) 
-
-      // 회원가입 통신 후 토큰 저장
-      instance.interceptors.response.use(
-        function (response) {
-          const token = response.headers.authorization.split(' ')
-          console.log(token[1])
-          localStorage.setItem('Access_Token', token[1])
-          console.log(localStorage.getItem('Access_Token'))
-          return response;
-        }
-      )
-
   }
 
   }
