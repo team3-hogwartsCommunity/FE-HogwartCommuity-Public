@@ -32,11 +32,19 @@ const BoardItem = styled.div`
 
 
 function FullBoard() {
-
+          //1
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage)
+  console.log("현재 페이지 :" , currentPage)
   const queryClient = useQueryClient()
-  const { isLoading, isError, data } = useQuery(['board'],() => getGryffindorBoard(currentPage-1))
+  // useinfiniteQuery
+  const { isLoading, isError, data } = useQuery(
+    ['board', currentPage-1],
+    () => getGryffindorBoard(currentPage-1),
+    {keepPreviousData:true}
+  )
+ 
+  console.log("data : ", data)
+  console.log("현재 페이지 :" , currentPage)
 
   
  
@@ -56,15 +64,13 @@ function FullBoard() {
     return <h1>Error...</h1>
   }
   
-  console.log(data)
+  // console.log(data)
 
   // console.log(data)
 
   
 
   // 1, 10 , 11, 20, 21, 30
-  const boardData = data.data.boardLists.slice((currentPage-1) * 8, (currentPage * 8))
-
   
  
   
@@ -93,10 +99,10 @@ function FullBoard() {
       <div>
         <BoardContainer>
         {
-          boardData.map((item) => (
+          data.data.boardLists.map((item) => (
             <BoardItem key={item.id}>
               <h2>{item.title}</h2>
-              <p>{item.contents}</p>
+              <p>{item.sub}</p>
               <button>좋아요</button>
               
               <button onClick={() => {deleteDormBoard(item.id)}}>삭제</button>

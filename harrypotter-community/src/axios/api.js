@@ -105,3 +105,10 @@ export const deleteComment = async ({boardId, commentId}) => {
     console.log("boardId:" , boardId, "commentId:"  , commentId)
     await instance.delete(`${process.env.REACT_APP_SERVER_URL}/api/board/${boardId}/comment/${commentId}`)
 }
+
+export const editComment = async ({boardId,commentId,changeComment}) => {
+  console.log("boardId :", boardId, "commentId :", commentId, "changeComment :", changeComment)
+  await instance.put(`api/board/${boardId}/comment/${commentId}`,{
+    contents:changeComment
+  })
+}
