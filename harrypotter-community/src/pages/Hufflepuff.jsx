@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteBoard, getGryffindorBoard } from '../axios/api';
+import { deleteBoard, getGryffindorBoard, getHufflepuffBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 // import './boardPaging.css'
 import Pagination from 'react-js-pagination';
@@ -16,7 +16,7 @@ function Hufflepuff() {
   const queryClient = useQueryClient()
   const { isLoading, isError, data } = useQuery(
     ['board', currentPage-1],
-    () => getGryffindorBoard(currentPage-1),
+    () => getHufflepuffBoard(currentPage-1),
     {keepPreviousData:true}
     )
 
@@ -58,8 +58,8 @@ function Hufflepuff() {
       <Wrap>
         {
           boardData.map((item) => (
-              <CardContainer border='#c8c527'>
-              <div key={item.id}>
+              <CardContainer border='#c8c527' key={item.id}>
+              <div >
               <Font size='20px'>{item.title}</Font>
               <Font>{item.contents}</Font>
               </div>
@@ -70,7 +70,7 @@ function Hufflepuff() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.length}
+          totalItemsCount={data.data.boardLists.length}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}

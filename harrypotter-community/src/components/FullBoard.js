@@ -34,10 +34,13 @@ function FullBoard() {
   if (isError) {
     return <h1>Error...</h1>
   }
-  console.log(data)
+  
 
 
   const boardData = data.data.boardLists.slice((currentPage-1) * 8, (currentPage * 8))
+  console.log("boardData :" , boardData)
+
+
   const paginationHandler = (i) => {
     
     setCurrentPage(i)
@@ -53,11 +56,13 @@ function FullBoard() {
     <>
     <Container>
       <Header />
+      
       <Bg>
+        <Wrap>
         {
           boardData.map((item) => (
-              <CardContainer border='#e96363'>
-              <div key={item.id}>
+              <CardContainer border='#e96363' key={item.id}>
+              <div >
               <Font size='20px'>{item.title}</Font>
               <Font>{item.contents}</Font>
               </div>
@@ -68,7 +73,7 @@ function FullBoard() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.length}
+          totalItemsCount={data.data.boardLists.length}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}

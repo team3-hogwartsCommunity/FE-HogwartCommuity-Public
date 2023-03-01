@@ -53,8 +53,8 @@ function Gryffindor() {
       <Wrap>
         {
           boardData.map((item) => (
-              <CardContainer border='#e96363'>
-              <div key={item.id}>
+              <CardContainer border='#e96363' key={item.id}>
+              <div >
               <Font size='20px'>{item.title}</Font>
               <Font>{item.contents}</Font>
               </div>
@@ -65,7 +65,7 @@ function Gryffindor() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.length}
+          totalItemsCount={data.data.boardListslength}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}
