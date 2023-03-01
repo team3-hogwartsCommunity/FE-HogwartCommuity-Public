@@ -57,12 +57,15 @@ function Hufflepuff() {
       <Header />
       <Wrap>
         {
-          boardData.map((item) => (
+          data.data.boardLists.map((item) => (
               <CardContainer border='#c8c527' key={item.id}>
               <div >
               <Font size='20px'>{item.title}</Font>
               <Font>{item.contents}</Font>
               </div>
+
+              {/* 상세보기 코드 */}
+              <button><Link to={`/board/${item.id}`}>상세보기</Link></button>
               </CardContainer>
           ))
         }
@@ -70,7 +73,7 @@ function Hufflepuff() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.boardLists.length}
+          totalItemsCount={data.data.totalPages}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}
