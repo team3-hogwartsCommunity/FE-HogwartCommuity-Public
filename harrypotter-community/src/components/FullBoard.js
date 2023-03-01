@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addBoard,  deleteBoard, getGryffindorBoard } from '../axios/api';
+import { deleteBoard, getGryffindorBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+
 import Header from './Header';
 
 const BoardContainer = styled.div`
@@ -32,12 +32,19 @@ const BoardItem = styled.div`
 
 
 function FullBoard() {
-
+          //1
   const [currentPage, setCurrentPage] = useState(1);
-  
-  
+  console.log("현재 페이지 :" , currentPage)
   const queryClient = useQueryClient()
-  const { isLoading, isError, data } = useQuery(['board'],getGryffindorBoard)
+  // useinfiniteQuery
+  const { isLoading, isError, data } = useQuery(
+    ['board', currentPage-1],
+    () => getGryffindorBoard(currentPage-1),
+    {keepPreviousData:true}
+  )
+ 
+  console.log("data : ", data)
+  console.log("현재 페이지 :" , currentPage)
 
   
  
@@ -57,15 +64,13 @@ function FullBoard() {
     return <h1>Error...</h1>
   }
   
- 
+  // console.log(data)
 
   // console.log(data)
 
   
 
   // 1, 10 , 11, 20, 21, 30
-  const boardData = data.data.slice((currentPage-1) * 8, (currentPage * 8))
-
   
  
   
@@ -94,13 +99,14 @@ function FullBoard() {
       <div>
         <BoardContainer>
         {
-          boardData.map((item) => (
+          data.data.boardLists.map((item) => (
             <BoardItem key={item.id}>
               <h2>{item.title}</h2>
-              <p>{item.contents}</p>
+              <p>{item.sub}</p>
               <button>좋아요</button>
-              <button>수정</button>
+              
               <button onClick={() => {deleteDormBoard(item.id)}}>삭제</button>
+              <button><Link to={`/EditPost/${item.id}`}>수정</Link></button>
               
               <div>
               <Link to={`/board/${item.id}`}>보기</Link>
@@ -124,7 +130,7 @@ function FullBoard() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.length}
+          totalItemsCount={data.data.totalPages}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}

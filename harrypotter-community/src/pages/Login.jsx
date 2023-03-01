@@ -1,9 +1,9 @@
-import axios from 'axios';
+
 import React, { useState } from 'react'
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router'
 import styled from 'styled-components'
-import { instance, LoginData } from '../axios/api';
+import { LoginData } from '../axios/api';
 
 function Login() {
 
