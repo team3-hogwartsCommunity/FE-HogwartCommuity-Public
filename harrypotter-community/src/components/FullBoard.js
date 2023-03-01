@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addBoard, getBoard, deleteBoard } from '../axios/api';
+import { addBoard,  deleteBoard, getGryffindorBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
+import Header from './Header';
 
 const BoardContainer = styled.div`
     display: flex;
@@ -33,17 +34,12 @@ const BoardItem = styled.div`
 function FullBoard() {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [title, onChangeTitle, resetTitle] = useInput();
-  const [contents, onChangeContents, resetContents] = useInput();
-  const [dormitory, onChangeDormitory, resetDormitory] = useInput();
+  
+  
   const queryClient = useQueryClient()
-  const { isLoading, isError, data } = useQuery(['board'],getBoard)
+  const { isLoading, isError, data } = useQuery(['board'],getGryffindorBoard)
 
-  const addMutation = useMutation(addBoard,{
-    onSuccess : () => {
-      queryClient.invalidateQueries('board')
-    }
-  })
+  
  
   const deleteMutation = useMutation(deleteBoard, {
     onSuccess : () =>{
@@ -63,7 +59,7 @@ function FullBoard() {
   
  
 
-  console.log(data)
+  // console.log(data)
 
   
 
@@ -78,14 +74,7 @@ function FullBoard() {
     setCurrentPage(i)
   }
 
-  const addDormBoard = (e) => {
-    e.preventDefault();
-    addMutation.mutate({
-      title,
-      contents,
-      dormitory
-    })
-  }
+  
   const deleteDormBoard = (boardId) => {
     
     deleteMutation.mutate(boardId)
@@ -95,12 +84,13 @@ function FullBoard() {
 
   return (
     <>
-      <form onSubmit={addDormBoard}> 
+      <Header/>
+      {/* <form onSubmit={addDormBoard}> 
         <input type="text" name='title' value={title} onChange={onChangeTitle}/>
         <input type="contents" name='contents' value={contents} onChange={onChangeContents}/>
         <input type="dormitory" name='dormitory' value={dormitory} onChange={onChangeDormitory}/>
         <button type='submit'>추가 테스트</button>
-      </form>
+      </form> */}
       <div>
         <BoardContainer>
         {
