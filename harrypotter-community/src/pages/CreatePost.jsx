@@ -1,19 +1,44 @@
 import React from 'react'
-
+import jwtDecode from 'jwt-decode'
+import { useMutation, useQuery } from 'react-query'
+import { token } from '../axios/api';
 import styled from 'styled-components'
+import { addBoard } from '../axios/api';
+import useInput from '../hooks/useInput';
+
 
 function CreatePost() {
+
+  const queryClient = useQuery();
+  const decoded_token = jwtDecode(token)
+  const [title, onChangeTitle, resetTitle] = useInput();
+  const [contents, onChangeContents, resetContents] = useInput();
+
+  const addMutation = useMutation(addBoard,{
+    onSuccess : () => {
+      queryClient.invalidateQueries('board')
+    }
+  })
+  console.log('Bearer '+token)
+  const addDormBoard = (e) => {
+    e.preventDefault();
+    addMutation.mutate({
+      title,
+      contents,
+      dormitory : decoded_token.auth
+    })
+  }
   return (
     <StBackGround>
       <StContainer>
-        <StFormBox>
-          <StTitleForm>
+        <StFormBox onSubmit={addDormBoard}>
+          <StTitleForm >
             <label>TITLE</label><br />
-            <StTitleInput />
+            <StTitleInput name="title" value={title} onChange={onChangeTitle}/>
           </StTitleForm>
           <StContentForm>
             <label>CONTENT</label><br />
-            <StContentInput />
+            <StContentInput name="contents" value={contents} onChange={onChangeContents}/>
           </StContentForm>
           <StFormButton>작성완료</StFormButton>
         </StFormBox>

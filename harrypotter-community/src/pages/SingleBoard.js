@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { addComment, deleteComment, getBoard, getSingleBoard } from '../axios/api'
+import { addComment, deleteComment, getSingleBoard } from '../axios/api'
 import Header from '../components/Header'
 import useInput from '../hooks/useInput'
 

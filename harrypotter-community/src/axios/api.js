@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const token = localStorage.getItem('Access_Token')
+export const token = localStorage.getItem('Access_Token')
 
 export const instance = axios.create({
   baseURL: 'http://52.79.148.222:8080',
@@ -33,18 +33,34 @@ export async function LoginData(userInfo) {
 }
 
 // 특정 기숙사 전체 게시글 가져오기
-export const getBoard = async () => {
+export const getGryffindorBoard = async () => {
     const response = await instance.get(`/api/boards?dormitory=Gryffindor&page=0&size=8`)
     return response
 }
+export const getRavenclawBoard = async () => {
+  const response = await instance.get(`/api/boards?dormitory=Ravenclaw&page=0&size=8`)
+  return response
+}
+export const getHufflepuffBoard = async () => {
+  const response = await instance.get(`/api/boards?dormitory=Hufflepuff&page=0&size=8`)
+  return response
+}
+export const getSlytherinBoard = async () => {
+  const response = await instance.get(`/api/boards?dormitory=Slytherin&page=0&size=8`)
+  return response
+}
+
+
+// cors에러? 백엔드에서 허용이 안되잇다?
+
 
 export const addBoard = async (newBoard) => {
   console.log(newBoard)
-  await instance.post(`/api/board`, newBoard)
+  await instance.post(`/api/board`, newBoard, {header: {Authorization:`Bearer ${token}`}})
 }
 
 export const deleteBoard = async (boardId) => {
-  await instance.delete(`/api/board/${boardId}`)
+  await instance.delete(`/api/board/${boardId}`, {header: {Authorization:`Bearer ${token}`}})
 }
 
 // 트러블슈팅 
@@ -52,7 +68,7 @@ export const deleteBoard = async (boardId) => {
 // 새로고침 해야 이전 페이지 데이터가 정상적으로 불러와지는 문제 -> 해결
 
 export const getSingleBoard = async (paramId) => {
-    const response = await instance.get(`/api/board?id=${paramId}`)
+    const response = await instance.get(`/api/board?id=${paramId}`, {header: {Authorization:`Bearer ${token}`}})
     return response
 }
 
@@ -60,10 +76,10 @@ export const getSingleBoard = async (paramId) => {
 
 export const addComment = async (newComment) => {
     console.log("newComment :" ,newComment)
-    await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/board/${newComment.id}/comment`, {contents:newComment.comment})
+    await instance.post(`${process.env.REACT_APP_SERVER_URL}/api/board/${newComment.id}/comment`, {contents:newComment.comment}, {header: {Authorization:`Bearer ${token}`}})
 }
 
 export const deleteComment = async ({boardId, commentId}) => {
     console.log("boardId:" , boardId, "commentId:"  , commentId)
-    await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/board/${boardId}/comment/${commentId}`)
+    await instance.delete(`${process.env.REACT_APP_SERVER_URL}/api/board/${boardId}/comment/${commentId}`, {header: {Authorization:`Bearer ${token}`}})
 }
