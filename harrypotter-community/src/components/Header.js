@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import jwtDecode from 'jwt-decode'
 import { useEffect, useState } from 'react'
 
-
 import { token } from '../axios/api'
 
 const DormList = styled.div`
@@ -30,6 +29,7 @@ const DormName = styled.button`
 function Header() {
 
     const navigate = useNavigate();
+
 
 
     const [dormState, setDormState] = useState();
@@ -82,6 +82,30 @@ function Header() {
 
     }
     // console.log(dormState)
+
+
+
+    // console.log(dormState)
+    // return (
+    //     <>
+    //         <h1>Domitory Board</h1>
+    //         <button onClick={onMakeBoardHandler}>글 작성하기</button>
+    //         <DormList>
+    //             <DormNameGrif>
+    //                 <h2 onClick={onSetDormStateHandler}>Gryffindor</h2>
+    //             </DormNameGrif>
+    //             <DormNameLev>
+    //                 <h2 onClick={onSetDormStateHandler}>Ravenclaw</h2>
+    //             </DormNameLev>
+    //             <DormNameHuf>
+    //                 <h2 onClick={onSetDormStateHandler}>Hufflepuff</h2>
+    //             </DormNameHuf>
+    //             <DormNameSli>
+    //                 <h2 onClick={onSetDormStateHandler}>Slytherin</h2>
+    //             </DormNameSli>
+    //         </DormList>
+    //     </>
+    // )
 
 }
 
