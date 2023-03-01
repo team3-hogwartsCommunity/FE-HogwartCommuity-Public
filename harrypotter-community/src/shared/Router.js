@@ -8,12 +8,14 @@ import Join from '../pages/Join'
 import Login from '../pages/Login'
 import Card from '../components/Card'
 import EditPost from '../pages/EditPost'
+import Header from '../components/Header'
 
 
 
 function Router() {
   return (
     <BrowserRouter>
+      
       <Routes>
         <Route path='/' element={<Login />}/>
         <Route path='join' element={<Join />}/>

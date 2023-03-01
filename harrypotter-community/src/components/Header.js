@@ -29,83 +29,56 @@ const DormName = styled.button`
 function Header() {
 
     const navigate = useNavigate();
+    const decoded_token = jwtDecode(token)
 
 
-
-    const [dormState, setDormState] = useState();
+    const [dormState, setDormState] = useState(decoded_token.auth);
 
     const onSetDormStateHandler = (e) => {
         setDormState(e.target.innerText)
     }
-    const decoded_token = jwtDecode(token)
+    
     console.log("유저 기숙사 : ", decoded_token.auth)
     console.log("방문한 기숙사 : ", dormState)
     useEffect(() => {
         setDormState(decoded_token.auth)
     }, [])
-
     const onMakeBoardHandler = () => {
         if (decoded_token.auth !== dormState) {
             alert('글쓰기 권한이 없습니다.')
         } else {
             navigate('/create_post')
         }
-        return (
-            <>
-                <HeaderBox>
-                    <HeaderRow>
-                        <TitleFont>
-                            Hogwarts Board
-                        </TitleFont>
-                        <div>
-                            <HeaderButton onClick={onMakeBoardHandler}>writing</HeaderButton>
-                            <HeaderButton>Logout</HeaderButton>
-                        </div>
-                    </HeaderRow>
-                    <DormList>
-                        <DormName color='#8b0a0d' onClick={onSetDormStateHandler}>
-                            <h2>Gryffindor</h2>
-                        </DormName>
-                        <DormName color='#043089' onClick={onSetDormStateHandler}>
-                            <h2>Ravenclaw</h2>
-                        </DormName>
-                        <DormName color='#9cce05' onClick={onSetDormStateHandler}>
-                            <h2>Huffflepuff</h2>
-                        </DormName>
-                        <DormName color='#045633' onClick={onSetDormStateHandler}>
-                            <h2>Slytherin</h2>
-                        </DormName>
-                    </DormList>
-                </HeaderBox>
-            </>
-        )
-
     }
-    // console.log(dormState)
-
-
-
-    // console.log(dormState)
-    // return (
-    //     <>
-    //         <h1>Domitory Board</h1>
-    //         <button onClick={onMakeBoardHandler}>글 작성하기</button>
-    //         <DormList>
-    //             <DormNameGrif>
-    //                 <h2 onClick={onSetDormStateHandler}>Gryffindor</h2>
-    //             </DormNameGrif>
-    //             <DormNameLev>
-    //                 <h2 onClick={onSetDormStateHandler}>Ravenclaw</h2>
-    //             </DormNameLev>
-    //             <DormNameHuf>
-    //                 <h2 onClick={onSetDormStateHandler}>Hufflepuff</h2>
-    //             </DormNameHuf>
-    //             <DormNameSli>
-    //                 <h2 onClick={onSetDormStateHandler}>Slytherin</h2>
-    //             </DormNameSli>
-    //         </DormList>
-    //     </>
-    // )
+    return (
+        <>
+            <HeaderBox>
+                <HeaderRow>
+                    <TitleFont>
+                        Hogwarts Board
+                    </TitleFont>
+                    <div>
+                        <HeaderButton onClick={onMakeBoardHandler}>writing</HeaderButton>
+                        <HeaderButton>Logout</HeaderButton>
+                    </div>
+                </HeaderRow>
+                <DormList>
+                    <DormName color='#8b0a0d' onClick={onSetDormStateHandler}>
+                        <h2>Gryffindor</h2>
+                    </DormName>
+                    <DormName color='#043089' onClick={onSetDormStateHandler}>
+                        <h2>Ravenclaw</h2>
+                    </DormName>
+                    <DormName color='#9cce05' onClick={onSetDormStateHandler}>
+                        <h2>Huffflepuff</h2>
+                    </DormName>
+                    <DormName color='#045633' onClick={onSetDormStateHandler}>
+                        <h2>Slytherin</h2>
+                    </DormName>
+                </DormList>
+            </HeaderBox>
+        </>
+    )
 
 }
 

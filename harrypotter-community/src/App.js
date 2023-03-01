@@ -22,10 +22,12 @@ function App() {
 
   return (
     <>
+    
     <QueryClientProvider client={queryClient}>
 
       {/* <Pagination/> */}
       {/* <Header></Header> */}
+      
       <Router/>
     </QueryClientProvider>
     </>
