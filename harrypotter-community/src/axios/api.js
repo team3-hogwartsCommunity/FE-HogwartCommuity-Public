@@ -52,16 +52,16 @@ export const getGryffindorBoard = async (id) => {
     const response = await instance.get(`/api/boards?dormitory=Gryffindor&page=${id}&size=8`)
     return response
 }
-export const getRavenclawBoard = async () => {
-  const response = await instance.get(`/api/boards?dormitory=Ravenclaw&page=0&size=8`)
+export const getRavenclawBoard = async (id) => {
+  const response = await instance.get(`/api/boards?dormitory=Ravenclaw&page=${id}&size=8`)
   return response
 }
-export const getHufflepuffBoard = async () => {
-  const response = await instance.get(`/api/boards?dormitory=Hufflepuff&page=0&size=8`)
+export const getHufflepuffBoard = async (id) => {
+  const response = await instance.get(`/api/boards?dormitory=Hufflepuff&page=${id}&size=8`)
   return response
 }
-export const getSlytherinBoard = async () => {
-  const response = await instance.get(`/api/boards?dormitory=Slytherin&page=0&size=8`)
+export const getSlytherinBoard = async (id) => {
+  const response = await instance.get(`/api/boards?dormitory=Slytherin&page=${id}&size=8`)
   return response
 }
 
@@ -70,7 +70,6 @@ export const getSlytherinBoard = async () => {
 
 
 export const addBoard = async (newBoard) => {
-  console.log(newBoard)
   await instance.post(`/api/board`, newBoard)
 }
 
@@ -97,17 +96,14 @@ export const getSingleBoard = async (paramId) => {
 
 
 export const addComment = async (newComment) => {
-    console.log("newComment :" ,newComment)
     await instance.post(`${process.env.REACT_APP_SERVER_URL}/api/board/${newComment.id}/comment`, {contents:newComment.comment})
 }
 
 export const deleteComment = async ({boardId, commentId}) => {
-    console.log("boardId:" , boardId, "commentId:"  , commentId)
     await instance.delete(`${process.env.REACT_APP_SERVER_URL}/api/board/${boardId}/comment/${commentId}`)
 }
 
 export const editComment = async ({boardId,commentId,changeComment}) => {
-  console.log("boardId :", boardId, "commentId :", commentId, "changeComment :", changeComment)
   await instance.put(`api/board/${boardId}/comment/${commentId}`,{
     contents:changeComment
   })

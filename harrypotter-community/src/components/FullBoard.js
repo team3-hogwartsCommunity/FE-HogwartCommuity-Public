@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addBoard,  deleteBoard, getGryffindorBoard } from '../axios/api';
+import { deleteBoard, getGryffindorBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
 import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+
 import Header from './Header';
 
 const BoardContainer = styled.div`

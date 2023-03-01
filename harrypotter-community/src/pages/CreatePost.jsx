@@ -1,6 +1,6 @@
 import React from 'react'
 import jwtDecode from 'jwt-decode'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation,useQueryClient } from 'react-query'
 import { token } from '../axios/api';
 import styled from 'styled-components'
 import { addBoard } from '../axios/api';

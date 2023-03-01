@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+
 import styled from 'styled-components'
 import { token } from '../axios/api'
 
@@ -34,13 +34,13 @@ const DormNameSli = styled.div`
 function Header() {
     
     const [dormState, setDormState] = useState();
-
+    
     const onSetDormStateHandler = (e) => {
         setDormState(e.target.innerText)
     }
     const decoded_token = jwtDecode(token)
-    
-
+    console.log("유저 기숙사 : ", decoded_token.auth)
+    console.log("방문한 기숙사 : ", dormState)
     useEffect(() => {
         setDormState(decoded_token.auth)
     }, [])
