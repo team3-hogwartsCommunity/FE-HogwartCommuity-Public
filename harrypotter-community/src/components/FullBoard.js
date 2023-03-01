@@ -34,10 +34,9 @@ const BoardItem = styled.div`
 function FullBoard() {
 
   const [currentPage, setCurrentPage] = useState(1);
-  
-  
+  console.log(currentPage)
   const queryClient = useQueryClient()
-  const { isLoading, isError, data } = useQuery(['board'],getGryffindorBoard)
+  const { isLoading, isError, data } = useQuery(['board'],() => getGryffindorBoard(currentPage-1))
 
   
  
@@ -57,14 +56,14 @@ function FullBoard() {
     return <h1>Error...</h1>
   }
   
- 
+  console.log(data)
 
   // console.log(data)
 
   
 
   // 1, 10 , 11, 20, 21, 30
-  const boardData = data.data.slice((currentPage-1) * 8, (currentPage * 8))
+  const boardData = data.data.boardLists.slice((currentPage-1) * 8, (currentPage * 8))
 
   
  
@@ -99,8 +98,9 @@ function FullBoard() {
               <h2>{item.title}</h2>
               <p>{item.contents}</p>
               <button>좋아요</button>
-              <button>수정</button>
+              
               <button onClick={() => {deleteDormBoard(item.id)}}>삭제</button>
+              <button><Link to={`/EditPost/${item.id}`}>수정</Link></button>
               
               <div>
               <Link to={`/board/${item.id}`}>보기</Link>
@@ -124,7 +124,7 @@ function FullBoard() {
         <Pagination
           activePage={currentPage}
           itemsCountPerPage={8}
-          totalItemsCount={data.data.length}
+          totalItemsCount={data.data.totalPages}
           pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}

@@ -1,23 +1,25 @@
 import React from 'react'
 import jwtDecode from 'jwt-decode'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { token } from '../axios/api';
+import { editBoard, token } from '../axios/api';
 import styled from 'styled-components'
 import { addBoard } from '../axios/api';
 import useInput from '../hooks/useInput';
+import { useParams } from 'react-router';
 
 
-function CreatePost() {
+function EditPost() {
 
   const queryClient = useQueryClient();
-
+  const params = useParams()
+  console.log(params)
   // 토큰 복호화
   const decoded_token = jwtDecode(token)
 
   const [title, onChangeTitle, resetTitle] = useInput();
   const [contents, onChangeContents, resetContents] = useInput();
 
-  const addMutation = useMutation(addBoard,{
+  const editMutation = useMutation(editBoard,{
     onSuccess: () =>{
       queryClient.invalidateQueries();
     }
@@ -27,18 +29,22 @@ function CreatePost() {
   const userDormitory = decoded_token.auth
   
   console.log(userDormitory)
-  const addDormBoard = (e) => {
+  const EditBoard = (e) => {
     e.preventDefault();
-    addMutation.mutate({
-      title,
-      contents,
-      dormitory : userDormitory
-    })
+    editMutation.mutate(
+      {
+        boardId: params.id, 
+        changeBoard : {
+          title,
+          contents
+        }
+    
+      })
   }
   return (
     <StBackGround>
       <StContainer>
-        <StFormBox onSubmit={addDormBoard}>
+        <StFormBox onSubmit={EditBoard}>
           <StTitleForm >
             <label>TITLE</label><br />
             <StTitleInput name="title" value={title} onChange={onChangeTitle}/>
@@ -47,7 +53,7 @@ function CreatePost() {
             <label>CONTENT</label><br />
             <StContentInput name="contents" value={contents} onChange={onChangeContents}/>
           </StContentForm>
-          <StFormButton>작성완료</StFormButton>
+          <StFormButton>수정 완료</StFormButton>
         </StFormBox>
       </StContainer>
     </StBackGround>
@@ -139,7 +145,7 @@ const StFormButton = styled.button`
 `
 
 
-export default CreatePost
+export default EditPost
 
 
 

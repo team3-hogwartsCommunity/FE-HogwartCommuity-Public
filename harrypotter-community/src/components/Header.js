@@ -39,7 +39,8 @@ function Header() {
         setDormState(e.target.innerText)
     }
     const decoded_token = jwtDecode(token)
-    console.log(decoded_token.auth)
+    
+
     useEffect(() => {
         setDormState(decoded_token.auth)
     }, [])
