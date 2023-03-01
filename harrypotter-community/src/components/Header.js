@@ -23,8 +23,6 @@ const DormName = styled.button`
     cursor: pointer;
 `
 
-
-
 function Header() {
 
   const navigate = useNavigate();
@@ -35,12 +33,27 @@ function Header() {
 
   const [dormState, setDormState] = useState();
     
-  const onSetDormStateHandler = (e) => {
+  const onGryffindorHandler = (e) => {
       setDormState(e.target.innerText)
+      navigate('/Gryffindor')
   }
+  const onRavenclawHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Ravenclaw')
+  }
+  const onHufflepuffHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Hufflepuff')
+  }
+  const onSlytherinHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Slytherin')
+  }
+
   const decoded_token = jwtDecode(token)
   console.log("유저 기숙사 : ", decoded_token.auth)
   console.log("방문한 기숙사 : ", dormState)
+
   useEffect(() => {
       setDormState(decoded_token.auth)
   }, [])
@@ -66,19 +79,19 @@ function Header() {
       </HeaderRow>
       <DormList>
         <DormName color='#8b0a0d'
-          onClick={onSetDormStateHandler}>
+          onClick={onGryffindorHandler}>
           <h2>Gryffindor</h2>
         </DormName>
         <DormName color='#043089'
-          onClick={onSetDormStateHandler}>
+          onClick={onRavenclawHandler}>
           <h2>Ravenclaw</h2>
         </DormName>
         <DormName color='#9cce05'
-          onClick={onSetDormStateHandler}>
+          onClick={onHufflepuffHandler}>
           <h2>Huffflepuff</h2>
         </DormName>
         <DormName color='#045633'
-          onClick={onSetDormStateHandler}>
+          onClick={onSlytherinHandler}>
           <h2>Slytherin</h2>
         </DormName>
       </DormList>
