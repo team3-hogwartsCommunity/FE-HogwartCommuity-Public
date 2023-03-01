@@ -11,7 +11,6 @@ import Header from './Header';
 
 
 function FullBoard() {
-
   const [currentPage, setCurrentPage] = useState(1);
   const queryClient = useQueryClient()
   const { isLoading, isError, data } = useQuery(
@@ -55,7 +54,6 @@ function FullBoard() {
     <Container>
       <Header />
       <Bg>
-      <Wrap>
         {
           boardData.map((item) => (
               <CardContainer border='#e96363'>
