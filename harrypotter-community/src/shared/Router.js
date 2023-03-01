@@ -8,14 +8,14 @@ import Join from '../pages/Join'
 import Login from '../pages/Login'
 import Card from '../components/Card'
 import EditPost from '../pages/EditPost'
-import Header from '../components/Header'
-
-
+import Gryffindor from '../pages/Gryffindor'
+import Hufflepuff from '../pages/Hufflepuff'
+import Ravenclaw from '../pages/Ravenclaw'
+import Slytherin from '../pages/Slytherin'
 
 function Router() {
   return (
     <BrowserRouter>
-      
       <Routes>
         <Route path='/' element={<Login />}/>
         <Route path='join' element={<Join />}/>
@@ -24,6 +24,10 @@ function Router() {
         <Route path='/board' element={<FullBoard/>}></Route>
         <Route path='/board/:id' element={<SingleBoard/>}></Route>
         <Route path='card' element={<Card />}></Route>
+        <Route path='/Gryffindor' element={<Gryffindor />}></Route>
+        <Route path='/Hufflepuff' element={<Hufflepuff />}></Route>
+        <Route path='/Ravenclaw' element={<Ravenclaw />}></Route>
+        <Route path='/Slytherin' element={<Slytherin />}></Route>
 
       </Routes>
     </BrowserRouter>

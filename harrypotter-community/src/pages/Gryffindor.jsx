@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteBoard, getGryffindorBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
-import './boardPaging.css'
+// import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './Header';
+import Header from '../components/Header';
 
 
 
-function FullBoard() {
+function Gryffindor() {
+
   const [currentPage, setCurrentPage] = useState(1);
   const queryClient = useQueryClient()
   const { isLoading, isError, data } = useQuery(
@@ -24,10 +25,6 @@ function FullBoard() {
       queryClient.invalidateQueries('board')
     }
   })
-
-
-
-
   if (isLoading) {
     return <h1>로딩중...</h1>
   }
@@ -43,7 +40,6 @@ function FullBoard() {
     setCurrentPage(i)
   }
   const deleteDormBoard = (boardId) => {
-    
     deleteMutation.mutate(boardId)
   }
   
@@ -54,6 +50,7 @@ function FullBoard() {
     <Container>
       <Header />
       <Bg>
+      <Wrap>
         {
           boardData.map((item) => (
               <CardContainer border='#e96363'>
@@ -111,4 +108,4 @@ const Font = styled.div`
   font-family: 'lightFont';
 `
 
-export default FullBoard
+export default Gryffindor;
