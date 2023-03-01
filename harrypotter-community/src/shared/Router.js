@@ -6,6 +6,7 @@ import SingleBoard from '../pages/SingleBoard'
 import CreatePost from '../pages/CreatePost'
 import Join from '../pages/Join'
 import Login from '../pages/Login'
+import Card from '../components/Card'
 
 
 function Router() {
@@ -17,6 +18,8 @@ function Router() {
         <Route path='create_post' element={<CreatePost />}/>
         <Route path='/board' element={<FullBoard/>}></Route>
         <Route path='/board/:id' element={<SingleBoard/>}></Route>
+        <Route path='card' element={<Card />}></Route>
+
       </Routes>
     </BrowserRouter>
 
