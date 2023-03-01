@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { questions } from "../HouseSortData";
 import { useState } from "react";
 
+const houseScore = {
+  griffScore: 0,
+  huffScore: 0,
+  ravenScore: 0,
+  slythScore: 0,
+};
+
 function HouseSort() {
   const questTotalNum = questions.length;
   const [questNum, setQuestNum] = useState(0);
@@ -69,24 +76,27 @@ function HouseSort() {
     margin-bottom: 30px;
   `;
 
-  const AnswerContainer = (props) => {
-    return (
-      <AnswerContainerStyle onClick={submitAnswer}>
-        {props.answ}
-      </AnswerContainerStyle>
-    );
-  };
+  function onSubmit(props) {
+    if (questNum < questTotalNum - 1) {
+      setQuestNum(questNum + 1);
+      if (props.houseType === "answerGriff") houseScore.griffScore++;
+      if (props.houseType === "answerHuff") houseScore.huffScore++;
+      if (props.houseType === "answerRaven") houseScore.ravenScore++;
+      if (props.houseType === "answerSlyth") houseScore.slythScore++;
+    } else {
+      alert(Object.values(houseScore));
+    }
 
-  const submitAnswer = () => {
-    setQuestNum(questNum + 1);
     console.log(houseScore);
-  };
-
-  const houseScore = {
-    griffScore: 0,
-    huffScore: 0,
-    ravenScore: 0,
-    slythScore: 0,
+  }
+  const AnswerContainer = (props) => {
+    if (questNum < questTotalNum) {
+      return (
+        <AnswerContainerStyle onClick={onSubmit}>
+          {props.answ}
+        </AnswerContainerStyle>
+      );
+    } else return <h1>ㅗ</h1>;
   };
 
   return (
@@ -113,6 +123,7 @@ function HouseSort() {
         return (
           <AnswerContainer
             answ={Object.values(questions)[questNum].answers[item]}
+            houseType={item}
           ></AnswerContainer>
         );
       })}
