@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery, useQueryClient } from 'react-query'
-import { getBoard } from '../axios/api';
+
 import styled from 'styled-components';
 
 const BoardContainer = styled.div`
@@ -18,13 +18,8 @@ const BoardName = styled.div`
 
 function DormBoard() {
     const queryClient = useQueryClient();
-    const { isLoading, isError, data } = useQuery(['todos'], getBoard)
-    if (isLoading) {
-        return "Loading..."
-    }
-    if (isError) {
-        return "error..."
-    };
+ 
+   
     
 
     return (

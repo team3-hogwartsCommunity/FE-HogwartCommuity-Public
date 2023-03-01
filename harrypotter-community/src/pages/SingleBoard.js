@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { addComment, deleteComment, getBoard, getSingleBoard } from '../axios/api'
+import { addComment, deleteComment, editComment, getSingleBoard } from '../axios/api'
 import Header from '../components/Header'
 import useInput from '../hooks/useInput'
 
@@ -56,7 +56,10 @@ function SingleBoard() {
   console.log(params)
   const { isLoading, isError, data } = useQuery(['board', params.id], () => getSingleBoard(params.id))
   const [comment, onChangeComment, resetComment] = useInput();
-  
+  const [newComment, onChangeNewComment, resetNewComment] = useInput();
+  const [commentId, setCommentId] = useState(0);
+  const [visible, setVisible] = useState(false)
+
   const queryClient = useQueryClient()
 
 
@@ -66,9 +69,13 @@ function SingleBoard() {
     }
   })
 
-  const deleteMutation = useMutation(deleteComment,{
-    onSuccess : () => 
-    queryClient.invalidateQueries('board')
+  const deleteMutation = useMutation(deleteComment, {
+    onSuccess: () =>
+      queryClient.invalidateQueries('board')
+  })
+
+  const editMutation = useMutation(editComment, {
+    onSuccess: () => queryClient.invalidateQueries('board')
   })
   if (isLoading) {
     return <h1>로딩중...</h1>
@@ -103,9 +110,18 @@ function SingleBoard() {
   const onDeleteCommentHandler = (boardId) => {
     deleteMutation.mutate(boardId)
   }
+  
 
-  const onEditCommentHandler = () => {
-    
+  // {boardId,commentId,changeComment}\
+  // 댓글 수정 쿼리
+  // 
+  const onEditCommentHandler = (e) => {
+    e.preventDefault();
+    editMutation.mutate({
+      boardId: boardData.id,
+      commentId: commentId, // undefined
+      changeComment: newComment
+    })
   }
 
   return (
@@ -130,16 +146,30 @@ function SingleBoard() {
 
         {
           boardComment.map((item) => (
-            <>
+           
               <SingleComment key={item.id}>
-                기숙사명 위치 : {item.contents}
-                <button onClick={() => {onDeleteCommentHandler({boardId: params.id, commentId: item.id})}}>삭제</button>
-                <button>수정</button>
+                {item.username} : {item.contents}
+                <button onClick={() => { onDeleteCommentHandler({ boardId: params.id, commentId: item.id }) }}>삭제</button>
+                <button onClick={() => { 
+                  setVisible(!visible) 
+                  setCommentId(item.id)
+                  }}>수정</button>
               </SingleComment>
-            </>
+              
+          
           ))
         }
-
+        {
+                visible &&
+                <AddCommentContainer>
+                  <form onSubmit={onEditCommentHandler}>
+                    <AddCommentTextArea onChange={onChangeNewComment} value={newComment} placeholder="수정할 댓글을 입력해주세요"></AddCommentTextArea>
+                    <AddCommentButtonContainer>
+                      <button>수정하기</button>
+                    </AddCommentButtonContainer>
+                  </form>
+                </AddCommentContainer>
+              }
         <AddCommentContainer>
           <form onSubmit={onCommentSubmitHandler}>
             <AddCommentTextArea onChange={onChangeComment} value={comment} placeholder="댓글을 입력해주세요"></AddCommentTextArea>

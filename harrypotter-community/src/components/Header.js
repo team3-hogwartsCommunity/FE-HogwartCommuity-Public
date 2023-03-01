@@ -1,7 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import jwtDecode from 'jwt-decode'
+import React, { useEffect, useState } from 'react'
 
+import styled from 'styled-components'
+import { token } from '../axios/api'
 
 const DormList = styled.div`
     display: flex;
@@ -20,6 +24,8 @@ const DormName = styled.button`
     font-family: 'lightFont';
     cursor: pointer;
 `
+
+
 
 function Header() {
 
@@ -57,6 +63,46 @@ function Header() {
     </HeaderBox>
     </>
   )
+    const [dormState, setDormState] = useState();
+    
+    const onSetDormStateHandler = (e) => {
+        setDormState(e.target.innerText)
+    }
+    const decoded_token = jwtDecode(token)
+    console.log("유저 기숙사 : ", decoded_token.auth)
+    console.log("방문한 기숙사 : ", dormState)
+    useEffect(() => {
+        setDormState(decoded_token.auth)
+    }, [])
+
+    const onMakeBoardHandler = () => {
+        if(decoded_token.auth !== dormState){
+            alert('글쓰기 권한이 없습니다.')   
+        }else{
+            window.location.replace("create_post")
+        }
+    }
+    // console.log(dormState)
+    return (
+        <>
+            <h1>Domitory Board</h1>
+            <button onClick={onMakeBoardHandler}>글 작성하기</button>
+            <DormList>
+                <DormNameGrif>
+                    <h2 onClick={onSetDormStateHandler}>Gryffindor</h2>
+                </DormNameGrif>
+                <DormNameLev>
+                    <h2 onClick={onSetDormStateHandler}>Ravenclaw</h2>
+                </DormNameLev>
+                <DormNameHuf>
+                    <h2 onClick={onSetDormStateHandler}>Hufflepuff</h2>
+                </DormNameHuf>
+                <DormNameSli>
+                    <h2 onClick={onSetDormStateHandler}>Slytherin</h2>
+                </DormNameSli>
+            </DormList>
+        </>
+    )
 }
 
 const HeaderBox = styled.div`
