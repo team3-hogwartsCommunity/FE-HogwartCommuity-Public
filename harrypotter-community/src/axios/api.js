@@ -11,14 +11,18 @@ export const instance = axios.create({
 
 instance.interceptors.request.use(
   function(config) {
+    console.log(config)
+
     const token = localStorage.getItem('Access_Token');
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config
   }
 )
 instance.interceptors.response.use(
   function (response) {
-    // console.log(response)
+    console.log(response)
     const token = response.headers.authorization
     if (token) {
       const _token = token.split(' ')

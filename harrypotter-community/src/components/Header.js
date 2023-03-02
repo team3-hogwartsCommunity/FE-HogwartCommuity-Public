@@ -85,13 +85,6 @@ function Header() {
       }
   }
 
-  // const onLogoutHandler = () => {
-  //   localStorage.removeItem('Access_Token')
-  //   if (!(localStorage.getItem('Access_Token'))) {
-  //     alert('로그아웃 되었습니다.')
-  //     navigate('/')
-  //   }
-  // }
   return (
     <>
     <HeaderBox>
@@ -115,7 +108,7 @@ function Header() {
         </DormName>
         <DormName color='#9cce05'
           onClick={onHufflepuffHandler}>
-          <h2>Huffflepuff</h2>
+          <h2>Hufflepuff</h2>
         </DormName>
         <DormName color='#045633'
           onClick={onSlytherinHandler}>

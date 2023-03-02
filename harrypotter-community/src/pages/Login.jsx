@@ -34,12 +34,13 @@ function Login() {
       navigate(`/board`)
       
     },
-    onError : (error) => {
-      const errorCode = error.response.data.message;
-      if (errorCode === "duplicate username") alert("중복된 아이디입니다.");
-      if (errorCode === 'unregister user') alert('등록되지 않은 사용자입니다.');
-      if (errorCode === 'invalid password') alert('비밀번호가 유효하지 않습니다.');
-      if (errorCode === 'invalid dormitory') alert('입학시험을 치루지않았어요! 다시 시도해주세요.')
+    onError : () => {
+      alert('에러!')
+      // const errorCode = error.response.data.message;
+      // if (errorCode === "duplicate username") alert("중복된 아이디입니다.");
+      // if (errorCode === 'unregister user') alert('등록되지 않은 사용자입니다.');
+      // if (errorCode === 'invalid password') alert('비밀번호가 유효하지 않습니다.');
+      // if (errorCode === 'invalid dormitory') alert('입학시험을 치루지않았어요! 다시 시도해주세요.')
     }
   })
 

@@ -23,7 +23,7 @@ function Router() {
         <Route path='join' element={<Join />}/>
         <Route path='create_post' element={<CreatePost />}/>
         <Route path='/EditPost/:id' element={<EditPost/>}/>
-        <Route path='/board' element={<FullBoard/>}></Route>
+        <Route path='/board' element={<Gryffindor />}></Route>
         <Route path='/HouseSort' element={<HouseSort />}/>
         <Route path='/HouseResult' element={<HouseResult/>}/>
         <Route path='/board/:id' element={<SingleBoard/>}></Route>
