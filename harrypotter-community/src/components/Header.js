@@ -36,18 +36,22 @@ function Header() {
   const onGryffindorHandler = (e) => {
       setDormState(e.target.innerText)
       navigate('/Gryffindor')
+      setDormState(e.target.innerText)
   }
   const onRavenclawHandler = (e) => {
     setDormState(e.target.innerText)
     navigate('/Ravenclaw')
+    setDormState(e.target.innerText)
   }
   const onHufflepuffHandler = (e) => {
     setDormState(e.target.innerText)
     navigate('/Hufflepuff')
+    setDormState(e.target.innerText)
   }
   const onSlytherinHandler = (e) => {
     setDormState(e.target.innerText)
     navigate('/Slytherin')
+    setDormState(e.target.innerText)
   }
 
   const decoded_token = jwtDecode(token)
