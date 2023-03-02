@@ -4,7 +4,8 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { LoginData } from '../axios/api';
-
+import { token } from '../axios/api';
+import jwtDecode from 'jwt-decode';
 function Login() {
 
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ function Login() {
   }
 
   const [login, setLogin] = useState(initialState);
-
+  const decoded_token  = jwtDecode(token)
+  console.log(decoded_token)
   const onChangeHandler = (e) => {
     const { name, value } = e.target
 
@@ -29,7 +31,7 @@ function Login() {
     onSuccess : () => {
       alert('로그인 성공!')
       
-      navigate('board')
+      navigate(`/${decoded_token.auth}`)
       
     },
     onError : (error) => {
