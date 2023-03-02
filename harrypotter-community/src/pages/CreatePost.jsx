@@ -5,6 +5,7 @@ import { token } from '../axios/api';
 import styled from 'styled-components'
 import { addBoard } from '../axios/api';
 import useInput from '../hooks/useInput';
+import { useNavigate } from 'react-router-dom';
 
 
 function CreatePost() {
@@ -13,7 +14,7 @@ function CreatePost() {
 
   // 토큰 복호화
   const decoded_token = jwtDecode(token)
-
+  const navigate = useNavigate()
   const [title, onChangeTitle, resetTitle] = useInput();
   const [contents, onChangeContents, resetContents] = useInput();
 
@@ -34,6 +35,8 @@ function CreatePost() {
       contents,
       dormitory : userDormitory
     })
+    alert('작성이 완료되었습니다.')
+    navigate(`/${userDormitory}`)
   }
   return (
     <StBackGround>
@@ -131,7 +134,7 @@ const StFormButton = styled.button`
   font-size: 24px;
   border: 1px solid;
   border-radius: 5px;
-  box-shadow: 2px 1px 3px 3px #b07ffa;
+  box-shadow: 2px 1px 3px 3px #7a7402;
   background-color: black;
   font-family: 'lightFont';
   color: white;
