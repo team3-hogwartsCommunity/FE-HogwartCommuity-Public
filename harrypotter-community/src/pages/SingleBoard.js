@@ -7,51 +7,7 @@ import { addComment, deleteBoard, deleteComment, editComment, getSingleBoard, to
 
 import useInput from '../hooks/useInput'
 
-const SingleBoardContainer = styled.div`
-  width: 1500px;
-  height: auto;
-  border: 1px solid black;
-  margin: 50px auto;
-  
-`
 
-
-const SingleBoardTitle = styled.p`
-  height: 50px;
-`
-const SingleBoardContent = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  
-  border: 1px solid red;
-  border-radius: 3%;
-`
-
-const CommentContainer = styled.div`
-  width: 1500px;
-  height: auto;
-  margin: 50px auto;
-  
-
-`
-const SingleComment = styled.div`
-  margin-bottom: 10px;
-`
-const AddCommentContainer = styled.div`
-  border: 1px solid red;
-  position: relative;
-`
-const AddCommentTextArea = styled.textarea`
-  width: 1000px;
-  height: 80px;
-  padding: 12px;
-  border: 1px solid black;
-  background: #fff;
-  resize: none;
-`
-const AddCommentButtonContainer = styled.div`
-
-`
 function SingleBoard() {
   const params = useParams()
   console.log(params)
@@ -64,7 +20,7 @@ function SingleBoard() {
   const queryClient = useQueryClient()
 
   const deleteBoardMutation = useMutation(deleteBoard, {
-    onSuccess : () => {
+    onSuccess: () => {
       queryClient.invalidateQueries('board')
     }
   })
@@ -93,10 +49,10 @@ function SingleBoard() {
   }
   // const boardData = data.data.find((element) => String(element.id) === params.id)
   // console.log(boardData)
-  
+
 
   const decoded_token = jwtDecode(token)
-  
+
   const boardData = data.data
   const boardComment = boardData.commentList
 
@@ -120,7 +76,7 @@ function SingleBoard() {
   const onDeleteCommentHandler = (boardId) => {
     deleteMutation.mutate(boardId)
   }
-  
+
   const onDeleteBoardHandler = (boardId) => {
     deleteBoardMutation.mutate(boardId)
   }
@@ -138,8 +94,7 @@ function SingleBoard() {
   }
   // decoded_token.sub
   return (
-    <>
-      
+    <Bg>
       <SingleBoardContainer>
         {/* 좋아요, 글id, 글 제목/내용, 생성시간, 댓글 */}
         <h3>
@@ -159,42 +114,46 @@ function SingleBoard() {
 
         {
           boardComment.map((item) => (
-           
-              <SingleComment key={item.id}>
+
+            <SingleComment key={item.id}>
+              <CommentRow>
                 {item.username} : {item.contents}
-                {
-                  decoded_token.sub === item.username 
-                  ? <button onClick={() => { onDeleteCommentHandler({ boardId: params.id, commentId: item.id }) }}>삭제</button> : null
-                }
-                {
-                  decoded_token.sub === item.username 
-                  ? 
-                  <button onClick={() => { 
-                    setVisible(!visible) 
-                    setCommentId(item.id)
-                    }}>수정</button> : null
-                }
-              </SingleComment>
-              
-          
+                <div>
+                  {
+                    decoded_token.sub === item.username
+                      ? <CommentButton onClick={() => { onDeleteCommentHandler({ boardId: params.id, commentId: item.id }) }}>Delete</CommentButton> : null
+                  }
+                  {
+                    decoded_token.sub === item.username
+                      ?
+                      <CommentButton onClick={() => {
+                        setVisible(!visible)
+                        setCommentId(item.id)
+                      }}>Edit</CommentButton> : null
+                  }
+                </div>
+              </CommentRow>
+            </SingleComment>
+
+
           ))
         }
         {
-                visible &&
-                <AddCommentContainer>
-                  <form onSubmit={onEditCommentHandler}>
-                    <AddCommentTextArea onChange={onChangeNewComment} value={newComment} placeholder="수정할 댓글을 입력해주세요"></AddCommentTextArea>
-                    <AddCommentButtonContainer>
-                      <button>수정하기</button>
-                    </AddCommentButtonContainer>
-                  </form>
-                </AddCommentContainer>
-              }
+          visible &&
+          <AddCommentContainer>
+            <form onSubmit={onEditCommentHandler}>
+              <AddCommentTextArea onChange={onChangeNewComment} value={newComment} placeholder="수정할 댓글을 입력해주세요"></AddCommentTextArea>
+              <AddCommentButtonContainer>
+                <button>수정하기</button>
+              </AddCommentButtonContainer>
+            </form>
+          </AddCommentContainer>
+        }
         <AddCommentContainer>
           <form onSubmit={onCommentSubmitHandler}>
             <AddCommentTextArea onChange={onChangeComment} value={comment} placeholder="댓글을 입력해주세요"></AddCommentTextArea>
             <AddCommentButtonContainer>
-              <button>등록</button>
+              <AddCommentButton>ADD⏳</AddCommentButton>
             </AddCommentButtonContainer>
           </form>
         </AddCommentContainer>
@@ -204,23 +163,105 @@ function SingleBoard() {
         {/* 게시글 수정, 삭제 코드 */}
         {/* 권한제어 해뒀음! */}
         {
-          decoded_token.sub === boardData.username 
-          ? <button><Link to={`/EditPost/${params.id}`}>게시글 수정</Link> </button>
-          : null
+          decoded_token.sub === boardData.username
+            ? <button><Link to={`/EditPost/${params.id}`}>게시글 수정</Link> </button>
+            : null
         }
         {
           decoded_token.sub === boardData.username
-          ? <button onClick={
-            () => {
-              onDeleteBoardHandler(params.id)
-              navigate(`/${decoded_token.auth}`)
-            }
+            ? <button onClick={
+              () => {
+                onDeleteBoardHandler(params.id)
+                navigate(`/${decoded_token.auth}`)
+              }
             }>게시글 삭제</button>
-          : null
+            : null
         }
       </div>
-    </>
+    </Bg>
   )
 }
+
+const Bg = styled.div`
+  height: 100vh;
+  padding: 100px;
+  background-color: white;
+`
+
+const SingleBoardContainer = styled.div`
+  width: 1000px;
+  max-height: 880px;
+  border: 2px solid #D2D2FF;
+  box-shadow: 2px 3px 5px 2px #D2D2FF;
+  border-radius: 12px;
+  margin: 0px auto;
+  color: #464646	;
+  font-family: 'lightFont';
+`
+const SingleBoardTitle = styled.p`
+  height: 30px;
+  padding: 10px;
+`
+const SingleBoardContent = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  
+  border: 1px solid #D2D2FF;
+  border-bottom: 0ch;
+  border-left: 0ch;
+  border-right: 0ch;
+  border-radius: 3%;
+`
+const CommentContainer = styled.div`
+  width: 1000px;
+  height: auto;
+  margin: 50px auto;
+`
+const CommentRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  color: #464646;
+  font-size: 18px;
+  font-family: 'lightFont';
+`
+const SingleComment = styled.div`
+  margin-bottom: 10px;
+`
+const CommentButton = styled.button`
+  margin-right: 5px;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 15px;
+  border: 1px solid #828282;
+  cursor: pointer;
+  color: #464646;
+`
+const AddCommentContainer = styled.div`
+  /* border: 1px solid ; */
+  position: relative;
+`
+const AddCommentTextArea = styled.textarea`
+  width: 1000px;
+  height: 80px;
+  padding: 12px;
+  border: 1px solid #b8a0dc;
+  background: white;
+  resize: none;
+  margin-top: 10px;
+`
+const AddCommentButtonContainer = styled.div`
+  margin-top: 5px;
+  display: flex;
+  justify-content: end;
+`
+const AddCommentButton = styled.button`
+  border-radius: 5px;
+  background-color: #464646;
+  color: white;
+  font-size: 20px;
+  font-family: 'lightFont';
+  box-shadow: 1px 2px 2px 2px #b8a0dc;
+`
 
 export default SingleBoard
