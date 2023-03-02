@@ -16,8 +16,8 @@ function Login() {
   }
 
   const [login, setLogin] = useState(initialState);
-  const decoded_token  = jwtDecode(token)
-  console.log(decoded_token)
+  
+  
   const onChangeHandler = (e) => {
     const { name, value } = e.target
 
@@ -31,7 +31,7 @@ function Login() {
     onSuccess : () => {
       alert('로그인 성공!')
       
-      navigate(`/${decoded_token.auth}`)
+      navigate(`/board`)
       
     },
     onError : (error) => {
