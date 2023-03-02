@@ -17,7 +17,7 @@ function Login() {
 
   const [login, setLogin] = useState(initialState);
   
-  
+  console.log("리퀘스트용 콘솔")
   const onChangeHandler = (e) => {
     const { name, value } = e.target
 
