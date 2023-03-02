@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SignUpData } from "../axios/api";
+
+import { house } from "./HouseResult";
 import { dormitory } from "./HouseSort";
+
+
 
 function Join() {
   // 회원가입 완료 후 시험으로 보내줄 네비함수 선언
@@ -33,6 +37,7 @@ function Join() {
   const { mutate } = useMutation(SignUpData, {
     onSuccess: () => {
       alert("회원가입 성공!");
+      navigate("/")
     },
 
     onError: () => {
@@ -44,6 +49,7 @@ function Join() {
       if (errorCode === "duplicate username") alert("중복된 아이디입니다.");
     },
   });
+  console.log(dormitory)
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     alert(`id: ${user.userId}, password : ${user.password}`);
@@ -58,7 +64,8 @@ function Join() {
     } else {
       alert("빈칸없이 채워주세요!");
     }
-  };
+  }; 
+  
 
   return (
     <div>
@@ -95,7 +102,7 @@ function Join() {
               onChange={onChangeHandler}
             />
           </JoinLineCenter>
-          <JoinButton>입학 완료</JoinButton>å
+          <JoinButton>입학 완료</JoinButton>
         </JoinFormBox>
       </JoinContainer>
     </div>

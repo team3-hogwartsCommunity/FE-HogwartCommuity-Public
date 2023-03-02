@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { questions } from "../HouseSortData";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export let dormitory;
-
 function HouseSort() {
+  
   const questTotalNum = questions.length;
   const [questNum, setQuestNum] = useState(0);
   const portion = Math.floor(((questNum + 1) / questTotalNum) * 100);
@@ -14,7 +16,7 @@ function HouseSort() {
   const [hufScore, setHufScore] = useState(0);
   const [ravenScore, setRavenScore] = useState(0);
   const [slyScore, setSlyScore] = useState(0);
-
+  const navigate = useNavigate()
   const HouseSortDefault = styled.div`
     display: flex;
     flex-direction: column;
@@ -77,6 +79,7 @@ function HouseSort() {
   `;
 
   function onSubmit(props) {
+    
     if (questNum < questTotalNum - 1) {
       if (props.houseType === "answerGriff") {
         setGriScore((prev) => prev + 1);
@@ -104,16 +107,18 @@ function HouseSort() {
     } else {
       setQuestNum((prev) => prev + 1);
       const houseScore = {
-        그리핀도르: griScore,
-        후플푸프: hufScore,
-        레번클로: ravenScore,
-        슬리데린: slyScore,
+        Gryffindor: griScore,
+        Hufflepuff: hufScore,
+        Ravenclaw: ravenScore,
+        Slytherin: slyScore,
       };
       const houseScoreMax = Math.max(...Object.values(houseScore));
       dormitory = Object.keys(houseScore).find(
         (key) => houseScore[key] === houseScoreMax
       );
       alert(dormitory);
+      navigate('/HouseResult')
+      // navigate("/join")
     }
   }
   const AnswerContainer = (props) => {

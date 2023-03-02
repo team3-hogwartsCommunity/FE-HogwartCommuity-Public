@@ -32,8 +32,8 @@ instance.interceptors.response.use(
 
 // 회원가입 api
 export async function SignUpData(userInfo) {
+  console.log(userInfo)
   const { data } = await instance.post('api/user/signup', userInfo)
-  console.log(data)
   return data
 }
 

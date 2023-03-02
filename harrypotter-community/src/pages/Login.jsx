@@ -73,7 +73,7 @@ function Login() {
           <StForJoinInner>
             <SubFontStyle>아직 회원이 아니신가요?</SubFontStyle>
             <StForJoinButton onClick={() => {
-              navigate('/join')
+              navigate('/HouseSort')
             }}>신입생 등록</StForJoinButton>
           </StForJoinInner>
         </StForJoinBox>
