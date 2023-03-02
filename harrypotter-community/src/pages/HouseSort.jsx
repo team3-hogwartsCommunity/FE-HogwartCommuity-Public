@@ -4,10 +4,8 @@ import { questions } from "../HouseSortData";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 export let dormitory;
 function HouseSort() {
-  
   const questTotalNum = questions.length;
   const [questNum, setQuestNum] = useState(0);
   const portion = Math.floor(((questNum + 1) / questTotalNum) * 100);
@@ -16,7 +14,7 @@ function HouseSort() {
   const [hufScore, setHufScore] = useState(0);
   const [ravenScore, setRavenScore] = useState(0);
   const [slyScore, setSlyScore] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const HouseSortDefault = styled.div`
     display: flex;
     flex-direction: column;
@@ -79,7 +77,6 @@ function HouseSort() {
   `;
 
   function onSubmit(props) {
-    
     if (questNum < questTotalNum - 1) {
       if (props.houseType === "answerGriff") {
         setGriScore((prev) => prev + 1);
@@ -117,7 +114,7 @@ function HouseSort() {
         (key) => houseScore[key] === houseScoreMax
       );
       alert(dormitory);
-      navigate('/HouseResult')
+      navigate("/HouseResult");
       // navigate("/join")
     }
   }
