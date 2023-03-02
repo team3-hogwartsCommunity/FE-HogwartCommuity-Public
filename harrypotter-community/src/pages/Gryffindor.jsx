@@ -35,6 +35,7 @@ function Gryffindor() {
 
 
   const boardData = data.data.boardLists.slice((currentPage-1) * 8, (currentPage * 8))
+  console.log('data.board', data.data.boardLists)
   const paginationHandler = (i) => {
     
     setCurrentPage(i)
@@ -43,6 +44,9 @@ function Gryffindor() {
     deleteMutation.mutate(boardId)
   }
   
+  const goToPost = (item) => {
+    window.location.href=`/board/${item}`
+  }
 
 
   return (
@@ -50,17 +54,16 @@ function Gryffindor() {
     <Container>
       <Header />
       <Bg>
+      <InContainer>
       <Wrap>
         {
           data.data.boardLists.map((item) => (
-              <CardContainer border='#e96363' key={item.id}>
+              <CardContainer onClick={() => {goToPost(item.id)}}
+                border='#e96363' key={item.id}>
               <div >
               <Font size='20px'>{item.title}</Font>
-              <Font>{item.contents}</Font>
+              <Font>{item.sub}</Font>
               </div>
-
-              {/* 상세보기 코드 */}
-              <button><Link to={`/board/${item.id}`}>상세보기</Link></button>
               </CardContainer>
           ))
         }
@@ -73,8 +76,8 @@ function Gryffindor() {
           prevPageText={"<"}
           nextPageText={">"}
           onChange={paginationHandler}
-        
         />
+      </InContainer>
       </Bg>
     </Container>
     </>
@@ -89,24 +92,31 @@ const Bg = styled.div`
   width: 100vw;
   background-color: black;
 `
+const InContainer = styled.div`
+  margin: 0 auto;
+`
 const Wrap = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: center; */
+  justify-items: flex-start;
   margin: 30px 100px;
   gap: 50px;
 `
 const CardContainer = styled.div`
+  /* display: flex; */
   width: 300px;
   height: 250px;
   border-radius: 8px;
   border: 1px solid ${({ border }) => border};
   box-shadow: 2px 1px 5px 2px ${({ border }) => border};;
   padding: 20px;
+  cursor: pointer;
 `
 
 const Font = styled.div`
   color: white;
+  padding-bottom: 10px;
   font-size: ${({ size }) => size};
   font-family: 'lightFont';
 `

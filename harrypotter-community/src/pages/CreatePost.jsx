@@ -131,7 +131,7 @@ const StFormButton = styled.button`
   font-size: 24px;
   border: 1px solid;
   border-radius: 5px;
-  box-shadow: 2px 1px 3px 3px #b07ffa;
+  box-shadow: 2px 1px 3px 3px #7a7402;
   background-color: black;
   font-family: 'lightFont';
   color: white;
