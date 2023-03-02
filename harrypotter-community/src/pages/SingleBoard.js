@@ -1,9 +1,10 @@
+import jwtDecode from 'jwt-decode'
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { addComment, deleteComment, editComment, getSingleBoard } from '../axios/api'
-import Header from '../components/Header'
+import { addComment, deleteBoard, deleteComment, editComment, getSingleBoard, token } from '../axios/api'
+
 import useInput from '../hooks/useInput'
 
 const SingleBoardContainer = styled.div`
@@ -62,6 +63,12 @@ function SingleBoard() {
 
   const queryClient = useQueryClient()
 
+  const deleteBoardMutation = useMutation(deleteBoard, {
+    onSuccess : () => {
+      queryClient.invalidateQueries('board')
+    }
+  })
+
 
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
@@ -77,6 +84,7 @@ function SingleBoard() {
   const editMutation = useMutation(editComment, {
     onSuccess: () => queryClient.invalidateQueries('board')
   })
+  const navigate = useNavigate()
   if (isLoading) {
     return <h1>로딩중...</h1>
   }
@@ -85,13 +93,15 @@ function SingleBoard() {
   }
   // const boardData = data.data.find((element) => String(element.id) === params.id)
   // console.log(boardData)
+  
 
-
-
+  const decoded_token = jwtDecode(token)
+  
   const boardData = data.data
   const boardComment = boardData.commentList
 
-  console.log(boardComment)
+  console.log(boardData)
+  console.log(decoded_token)
 
   // console.log(boardComment)
 
@@ -111,6 +121,9 @@ function SingleBoard() {
     deleteMutation.mutate(boardId)
   }
   
+  const onDeleteBoardHandler = (boardId) => {
+    deleteBoardMutation.mutate(boardId)
+  }
 
   // {boardId,commentId,changeComment}\
   // 댓글 수정 쿼리
@@ -123,10 +136,10 @@ function SingleBoard() {
       changeComment: newComment
     })
   }
-
+  // decoded_token.sub
   return (
     <>
-
+      
       <SingleBoardContainer>
         {/* 좋아요, 글id, 글 제목/내용, 생성시간, 댓글 */}
         <h3>
@@ -149,11 +162,18 @@ function SingleBoard() {
            
               <SingleComment key={item.id}>
                 {item.username} : {item.contents}
-                <button onClick={() => { onDeleteCommentHandler({ boardId: params.id, commentId: item.id }) }}>삭제</button>
-                <button onClick={() => { 
-                  setVisible(!visible) 
-                  setCommentId(item.id)
-                  }}>수정</button>
+                {
+                  decoded_token.sub === item.username 
+                  ? <button onClick={() => { onDeleteCommentHandler({ boardId: params.id, commentId: item.id }) }}>삭제</button> : null
+                }
+                {
+                  decoded_token.sub === item.username 
+                  ? 
+                  <button onClick={() => { 
+                    setVisible(!visible) 
+                    setCommentId(item.id)
+                    }}>수정</button> : null
+                }
               </SingleComment>
               
           
@@ -179,6 +199,26 @@ function SingleBoard() {
           </form>
         </AddCommentContainer>
       </CommentContainer>
+      <div>
+
+        {/* 게시글 수정, 삭제 코드 */}
+        {/* 권한제어 해뒀음! */}
+        {
+          decoded_token.sub === boardData.username 
+          ? <button><Link to={`/EditPost/${params.id}`}>게시글 수정</Link> </button>
+          : null
+        }
+        {
+          decoded_token.sub === boardData.username
+          ? <button onClick={
+            () => {
+              onDeleteBoardHandler(params.id)
+              navigate(`/${decoded_token.auth}`)
+            }
+            }>게시글 삭제</button>
+          : null
+        }
+      </div>
     </>
   )
 }

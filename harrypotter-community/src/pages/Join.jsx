@@ -34,12 +34,16 @@ function Join() {
     onSuccess: () => {
       alert("회원가입 성공!");
     },
+
     onError: () => {
       alert("회원가입 실패!");
       console.log(mutate);
     },
+    onError: (error) => {
+      const errorCode = error.response.data.message;
+      if (errorCode === "duplicate username") alert("중복된 아이디입니다.");
+    },
   });
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     alert(`id: ${user.userId}, password : ${user.password}`);

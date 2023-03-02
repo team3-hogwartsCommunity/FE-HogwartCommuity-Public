@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import jwtDecode from 'jwt-decode'
 import { useEffect, useState } from 'react'
-
 import { token } from '../axios/api'
 
 const DormList = styled.div`
@@ -24,66 +23,81 @@ const DormName = styled.button`
     cursor: pointer;
 `
 
-
-
 function Header() {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  const goCreateBoard = () => {
+    navigate('/create_post')
+  }
 
+  const [dormState, setDormState] = useState();
+    
+  const onGryffindorHandler = (e) => {
+      setDormState(e.target.innerText)
+      navigate('/Gryffindor')
+  }
+  const onRavenclawHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Ravenclaw')
+  }
+  const onHufflepuffHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Hufflepuff')
+  }
+  const onSlytherinHandler = (e) => {
+    setDormState(e.target.innerText)
+    navigate('/Slytherin')
+  }
 
-    const [dormState, setDormState] = useState();
+  const decoded_token = jwtDecode(token)
+  console.log("유저 기숙사 : ", decoded_token.auth)
+  console.log("방문한 기숙사 : ", dormState)
 
-    const onSetDormStateHandler = (e) => {
-        setDormState(e.target.innerText)
-    }
-    const decoded_token = jwtDecode(token)
-    console.log("유저 기숙사 : ", decoded_token.auth)
-    console.log("방문한 기숙사 : ", dormState)
-    useEffect(() => {
-        setDormState(decoded_token.auth)
-    }, [])
+  useEffect(() => {
+      setDormState(decoded_token.auth)
+  }, [])
 
-    const onMakeBoardHandler = () => {
-        if (decoded_token.auth !== dormState) {
-            alert('글쓰기 권한이 없습니다.')
-        } else {
-            navigate('/create_post')
-        }
-        return (
-            <>
-                <HeaderBox>
-                    <HeaderRow>
-                        <TitleFont>
-                            Hogwarts Board
-                        </TitleFont>
-                        <div>
-                            <HeaderButton onClick={onMakeBoardHandler}>writing</HeaderButton>
-                            <HeaderButton>Logout</HeaderButton>
-                        </div>
-                    </HeaderRow>
-                    <DormList>
-                        <DormName color='#8b0a0d' onClick={onSetDormStateHandler}>
-                            <h2>Gryffindor</h2>
-                        </DormName>
-                        <DormName color='#043089' onClick={onSetDormStateHandler}>
-                            <h2>Ravenclaw</h2>
-                        </DormName>
-                        <DormName color='#9cce05' onClick={onSetDormStateHandler}>
-                            <h2>Huffflepuff</h2>
-                        </DormName>
-                        <DormName color='#045633' onClick={onSetDormStateHandler}>
-                            <h2>Slytherin</h2>
-                        </DormName>
-                    </DormList>
-                </HeaderBox>
-            </>
-        )
-
-    }
-    // console.log(dormState)
-
-
+  const onMakeBoardHandler = () => {
+      if(decoded_token.auth !== dormState){
+        alert('글쓰기 권한이 없습니다.')   
+      }else{
+        navigate('/create_post')
+      }
+  }
+  return (
+    <>
+    <HeaderBox>
+      <HeaderRow>
+        <TitleFont>
+          Hogwarts Board
+        </TitleFont>
+        <div>
+        <HeaderButton onClick={onMakeBoardHandler}>writing</HeaderButton>
+        <HeaderButton>Logout</HeaderButton>
+        </div>
+      </HeaderRow>
+      <DormList>
+        <DormName color='#8b0a0d'
+          onClick={onGryffindorHandler}>
+          <h2>Gryffindor</h2>
+        </DormName>
+        <DormName color='#043089'
+          onClick={onRavenclawHandler}>
+          <h2>Ravenclaw</h2>
+        </DormName>
+        <DormName color='#9cce05'
+          onClick={onHufflepuffHandler}>
+          <h2>Huffflepuff</h2>
+        </DormName>
+        <DormName color='#045633'
+          onClick={onSlytherinHandler}>
+          <h2>Slytherin</h2>
+        </DormName>
+      </DormList>
+    </HeaderBox>
+    </>
+  )
 
     // console.log(dormState)
     // return (
@@ -106,7 +120,6 @@ function Header() {
     //         </DormList>
     //     </>
     // )
-
 }
 
 const HeaderBox = styled.div`

@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { deleteBoard, getGryffindorBoard } from '../axios/api';
+import { deleteBoard, getGryffindorBoard, getHufflepuffBoard } from '../axios/api';
 import 'bootstrap/dist/css/bootstrap.css'
-import './boardPaging.css'
+// import './boardPaging.css'
 import Pagination from 'react-js-pagination';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './Header';
+import Header from '../components/Header';
 
 
 
-function FullBoard() {
+function Hufflepuff() {
+
   const [currentPage, setCurrentPage] = useState(1);
   const queryClient = useQueryClient()
   const { isLoading, isError, data } = useQuery(
     ['board', currentPage-1],
-    () => getGryffindorBoard(currentPage-1),
+    () => getHufflepuffBoard(currentPage-1),
     {keepPreviousData:true}
     )
 
@@ -25,7 +26,7 @@ function FullBoard() {
     }
   })
 
-  console.log(data)
+
 
 
   if (isLoading) {
@@ -34,13 +35,10 @@ function FullBoard() {
   if (isError) {
     return <h1>Error...</h1>
   }
-  
+  console.log(data)
 
 
   const boardData = data.data.boardLists.slice((currentPage-1) * 8, (currentPage * 8))
-  console.log("boardData :" , boardData)
-
-
   const paginationHandler = (i) => {
     
     setCurrentPage(i)
@@ -55,13 +53,12 @@ function FullBoard() {
   return (
     <>
     <Container>
-      <Header />
-      
       <Bg>
-        <Wrap>
+      <Header />
+      <Wrap>
         {
           data.data.boardLists.map((item) => (
-              <CardContainer border='#e96363' key={item.id}>
+              <CardContainer border='#c8c527' key={item.id}>
               <div >
               <Font size='20px'>{item.title}</Font>
               <Font>{item.contents}</Font>
@@ -119,4 +116,4 @@ const Font = styled.div`
   font-family: 'lightFont';
 `
 
-export default FullBoard
+export default Hufflepuff
