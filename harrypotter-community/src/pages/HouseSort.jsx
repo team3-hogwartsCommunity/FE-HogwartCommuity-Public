@@ -3,17 +3,17 @@ import styled from "styled-components";
 import { questions } from "../HouseSortData";
 import { useState } from "react";
 
-const houseScore = {
-  griffScore: 0,
-  huffScore: 0,
-  ravenScore: 0,
-  slythScore: 0,
-};
+export let dormitory;
 
 function HouseSort() {
   const questTotalNum = questions.length;
   const [questNum, setQuestNum] = useState(0);
   const portion = Math.floor(((questNum + 1) / questTotalNum) * 100);
+
+  const [griScore, setGriScore] = useState(0);
+  const [hufScore, setHufScore] = useState(0);
+  const [ravenScore, setRavenScore] = useState(0);
+  const [slyScore, setSlyScore] = useState(0);
 
   const HouseSortDefault = styled.div`
     display: flex;
@@ -78,25 +78,54 @@ function HouseSort() {
 
   function onSubmit(props) {
     if (questNum < questTotalNum - 1) {
-      setQuestNum(questNum + 1);
-      if (props.houseType === "answerGriff") houseScore.griffScore++;
-      if (props.houseType === "answerHuff") houseScore.huffScore++;
-      if (props.houseType === "answerRaven") houseScore.ravenScore++;
-      if (props.houseType === "answerSlyth") houseScore.slythScore++;
+      if (props.houseType === "answerGriff") {
+        setGriScore((prev) => prev + 1);
+      }
+      if (props.houseType === "answerHuff") {
+        setHufScore((prev) => prev + 1);
+      }
+      if (props.houseType === "answerRaven") {
+        setRavenScore((prev) => prev + 1);
+      }
+      if (props.houseType === "answerSlyth") {
+        setSlyScore((prev) => prev + 1);
+      }
+      console.log(
+        "gri :",
+        griScore,
+        "huf:",
+        hufScore,
+        "raven:",
+        ravenScore,
+        "sly : ",
+        slyScore
+      );
+      setQuestNum((prev) => prev + 1);
     } else {
-      alert(Object.values(houseScore));
+      setQuestNum((prev) => prev + 1);
+      const houseScore = {
+        그리핀도르: griScore,
+        후플푸프: hufScore,
+        레번클로: ravenScore,
+        슬리데린: slyScore,
+      };
+      const houseScoreMax = Math.max(...Object.values(houseScore));
+      dormitory = Object.keys(houseScore).find(
+        (key) => houseScore[key] === houseScoreMax
+      );
+      alert(dormitory);
     }
-
-    console.log(houseScore);
   }
   const AnswerContainer = (props) => {
-    if (questNum < questTotalNum) {
-      return (
-        <AnswerContainerStyle onClick={onSubmit}>
-          {props.answ}
-        </AnswerContainerStyle>
-      );
-    } else return <h1>ㅗ</h1>;
+    return (
+      <AnswerContainerStyle
+        onClick={() => {
+          onSubmit(props);
+        }}
+      >
+        {props.answ}
+      </AnswerContainerStyle>
+    );
   };
 
   return (
@@ -127,6 +156,20 @@ function HouseSort() {
           ></AnswerContainer>
         );
       })}
+      {/* <button
+        onClick={() => {
+          console.log(
+            "gri :",
+            griScore,
+            "huf:",
+            hufScore,
+            "raven:",
+            ravenScore,
+            "sly : ",
+            slyScore
+          );
+        }}
+      ></button> */}
     </HouseSortDefault>
   );
 }

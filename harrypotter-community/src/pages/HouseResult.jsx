@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { dormitory } from "./HouseSort";
 
-const house = "기숙사이름";
+const house = "후플푸프";
 
 const houseData = {
   그리핀도르:
@@ -11,7 +12,7 @@ const houseData = {
   레번클로:
     "래번클로에서는 지성, 창의력, 학식, 재치를 중요하게 생각합니다. 래번클로의 학생들은 이성적, 논리적인 성향이 있으며 학문적 수양에 대해 탐구합니다. 그들은 방대한 책 지식과 더불어 자신들의 생각이 갖고있는 독창성에 대해 자부심을 느낍니다.",
   슬리데린:
-    "슬리데린에서는 야망과 노련함, 지도력, 기지를 중요하게 생각합니다.  슬리데린의 학생들은 야망 있고 빈틈없으며, 성취 지향적이고 사회적 지위를 의식하는 경향이 있습니다. 그들은 또한 자기 보호에 대해 강렬한 감각을 지니고 있어 모든 가능성을 고려하기 때문에 어떤 행동을 하기 전 주저하는 경향을 지닙니다.",
+    "슬리데린에서는 야망과 노련함, 지도력, 기지를 중요하게 생각합니다. 슬리데린의 학생들은 야망 있고 빈틈없으며, 성취 지향적이고 사회적 지위를 의식하는 경향이 있습니다. 그들은 또한 자기 보호에 대해 강렬한 감각을 지니고 있어 모든 가능성을 고려하기 때문에 어떤 행동을 하기 전 주저하는 경향을 지닙니다.",
 };
 
 const BackLayer = styled.div`
@@ -22,16 +23,23 @@ const BackLayer = styled.div`
   width: 100vw;
   height: 100vh;
 `;
+
 const ResultFrame = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 40px;
-  border: 10px solid red;
+  border: 10px solid;
   width: 40vw;
   height: 40vh;
 `;
+
+const LightFontApply = styled.div`
+  font-family: "lightFont";
+  font-size: 23px;
+`;
+
 const HouseContainer = styled.div`
   font-family: "lightFont";
   font-size: 45px;
@@ -41,16 +49,17 @@ const HouseContainer = styled.div`
 const HouseExplain = styled.div`
   font-family: "lightFont";
   font-size: 20px;
+  margin: 40px 80px;
 `;
 
 function HouseResult() {
   return (
     <BackLayer>
       <ResultFrame>
-        <div>당신의 기숙사는</div>
+        <LightFontApply>당신의 기숙사는</LightFontApply>
         <HouseContainer>{house}</HouseContainer>
-        <div>입니다</div>
-        <HouseExplain>이 기숙사는... </HouseExplain>
+        <LightFontApply>입니다</LightFontApply>
+        <HouseExplain>{houseData[house]} </HouseExplain>
       </ResultFrame>
     </BackLayer>
   );

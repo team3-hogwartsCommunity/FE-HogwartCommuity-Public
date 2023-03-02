@@ -20,10 +20,13 @@ function App() {
       <QueryClientProvider client={queryClient}>
         {/* <Pagination/> */}
         {/* <Header></Header> */}
+
         <Router />
       </QueryClientProvider>
     </>
   );
+  // return <HouseSort />;
+  // return <HouseResult />;
 }
 
 export default App;

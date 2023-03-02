@@ -1,58 +1,60 @@
-
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SignUpData } from "../axios/api";
+import { dormitory } from "./HouseSort";
 
 function Join() {
-
   // 회원가입 완료 후 시험으로 보내줄 네비함수 선언
   const navigate = useNavigate();
   // 회원가입 요청과정의 상태 관리
-  const [isLoading, serIsLoading] = useState(false)
+  const [isLoading, serIsLoading] = useState(false);
 
   const initialState = {
-    userId: '',
-    password: '',
-    passwordCheck: ''
+    userId: "",
+    password: "",
+    passwordCheck: "",
   };
-  console.log(initialState)
+  console.log(initialState);
 
   const [user, setUser] = useState(initialState);
 
   const onChangeHandler = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setUser({
       ...user,
-      [name] : value
-    })
+      [name]: value,
+    });
 
-    console.log('name', name, 'value', value)
+    console.log("name", name, "value", value);
   };
 
   const { mutate } = useMutation(SignUpData, {
     onSuccess: () => {
-      alert('회원가입 성공!')
+      alert("회원가입 성공!");
     },
-    onError : () => {
-      alert('회원가입 실패!')
-      console.log(mutate)
-    }
-  })
+    onError: () => {
+      alert("회원가입 실패!");
+      console.log(mutate);
+    },
+  });
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    alert(`id: ${user.userId}, password : ${user.password}`)
+    alert(`id: ${user.userId}, password : ${user.password}`);
 
-
-    if ( !(user.userId === "" && user.password === "")) {
-      mutate({username : user.userId, password : user.password, dormitory : 'Gryffindor'})
-      console.log(user)
+    if (!(user.userId === "" && user.password === "")) {
+      mutate({
+        username: user.userId,
+        password: user.password,
+        dormitory: dormitory,
+      });
+      console.log(user);
     } else {
-      alert('빈칸없이 채워주세요!')
+      alert("빈칸없이 채워주세요!");
     }
-  }
+  };
 
   return (
     <div>
@@ -61,30 +63,33 @@ function Join() {
         <JoinFormBox onSubmit={onSubmitHandler}>
           <JoinLineCenter>
             <JoinLabel>ID</JoinLabel>
-            <JoinInput 
-              name='userId'
-              type='text'
+            <JoinInput
+              name="userId"
+              type="text"
               value={user.userId}
-              placeholder='아이디'
-              onChange={onChangeHandler}/>
+              placeholder="아이디"
+              onChange={onChangeHandler}
+            />
           </JoinLineCenter>
           <JoinLineCenter>
             <JoinLabel>PASSWORD</JoinLabel>
             <JoinInput
-              name='password'
-              type='password'
+              name="password"
+              type="password"
               value={user.password}
-              placeholder='비밀번호'
-              onChange={onChangeHandler}/>
+              placeholder="비밀번호"
+              onChange={onChangeHandler}
+            />
           </JoinLineCenter>
           <JoinLineCenter>
             <JoinLabel>CHECK PW</JoinLabel>
             <JoinInput
-              name='passwordCheck'
-              type='password'
+              name="passwordCheck"
+              type="password"
               value={user.passwordCheck}
-              placeholder='비밀번호 확인'
-              onChange={onChangeHandler}/>
+              placeholder="비밀번호 확인"
+              onChange={onChangeHandler}
+            />
           </JoinLineCenter>
           <JoinButton>입학 완료</JoinButton>å
         </JoinFormBox>
@@ -101,7 +106,7 @@ const JoinFont = styled.div`
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  font-family: 'harrypotterFont'
+  font-family: "harrypotterFont";
 `;
 const JoinContainer = styled.div`
   height: 100vh;
@@ -111,7 +116,6 @@ const JoinContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 
 const JoinFormBox = styled.form`
   width: 700px;
@@ -133,7 +137,7 @@ const JoinLabel = styled.label`
   font-size: 28px;
   margin-right: 20px;
   float: left;
-  font-family: 'lightFont'
+  font-family: "lightFont";
 `;
 
 const JoinLineCenter = styled.div`
@@ -158,7 +162,7 @@ const JoinButton = styled.button`
   cursor: pointer;
   background-color: #9a60f2;
   box-shadow: inset 5px 5px 10px #4d1956;
-  font-family: 'lightFont';
+  font-family: "lightFont";
   font-size: 20px;
 `;
 
