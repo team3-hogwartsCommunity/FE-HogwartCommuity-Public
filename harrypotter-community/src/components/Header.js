@@ -69,6 +69,14 @@ function Header() {
         navigate('/create_post')
       }
   }
+
+  // const onLogoutHandler = () => {
+  //   localStorage.removeItem('Access_Token')
+  //   if (!(localStorage.getItem('Access_Token'))) {
+  //     alert('로그아웃 되었습니다.')
+  //     navigate('/')
+  //   }
+  // }
   return (
     <>
     <HeaderBox>
