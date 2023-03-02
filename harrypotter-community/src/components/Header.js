@@ -35,32 +35,47 @@ function Header() {
     
   const onGryffindorHandler = (e) => {
       setDormState(e.target.innerText)
+      console.log('렌더링....')
       navigate('/Gryffindor')
-      setDormState(e.target.innerText)
+      console.log('렌더링.... 끝...')
+      
+      
+      
   }
   const onRavenclawHandler = (e) => {
     setDormState(e.target.innerText)
+    console.log('렌더링....')
     navigate('/Ravenclaw')
-    setDormState(e.target.innerText)
+    console.log('렌더링.... 끝...')
+    
+    
+    
   }
   const onHufflepuffHandler = (e) => {
     setDormState(e.target.innerText)
+    console.log('렌더링....')
     navigate('/Hufflepuff')
-    setDormState(e.target.innerText)
+    console.log('렌더링.... 끝...')
+    
+    
+    
   }
   const onSlytherinHandler = (e) => {
-    setDormState(e.target.innerText)
+    console.log('렌더링....')
     navigate('/Slytherin')
+    console.log('렌더링.... 끝...')
     setDormState(e.target.innerText)
+    
+    
   }
 
   const decoded_token = jwtDecode(token)
   console.log("유저 기숙사 : ", decoded_token.auth)
   console.log("방문한 기숙사 : ", dormState)
 
-  useEffect(() => {
-      setDormState(decoded_token.auth)
-  }, [])
+  // useEffect(() => {
+  //     setDormState(() => dormState)
+  // }, [])
 
   const onMakeBoardHandler = () => {
       if(decoded_token.auth !== dormState){
