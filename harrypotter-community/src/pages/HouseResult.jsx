@@ -16,8 +16,6 @@ const houseData = {
     "슬리데린에서는 야망과 노련함, 지도력, 기지를 중요하게 생각합니다. 슬리데린의 학생들은 야망 있고 빈틈없으며, 성취 지향적이고 사회적 지위를 의식하는 경향이 있습니다. 그들은 또한 자기 보호에 대해 강렬한 감각을 지니고 있어 모든 가능성을 고려하기 때문에 어떤 행동을 하기 전 주저하는 경향을 지닙니다.",
 };
 
-
-
 const BackLayer = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,8 +32,8 @@ const ResultFrame = styled.div`
   align-items: center;
   border-radius: 40px;
   border: 10px solid;
-  width: 40vw;
-  height: 40vh;
+  padding: 100px;
+  margin: 500px;
 `;
 
 const LightFontApply = styled.div`
@@ -47,6 +45,7 @@ const HouseContainer = styled.div`
   font-family: "lightFont";
   font-size: 45px;
   margin: 20px;
+  cursor: pointer;
 `;
 
 const HouseExplain = styled.div`
@@ -55,12 +54,11 @@ const HouseExplain = styled.div`
   margin: 40px 80px;
 `;
 
-
 function HouseResult() {
   const navigate = useNavigate();
   const onNavigateRegist = () => {
-    navigate('/join')
-}
+    navigate("/join");
+  };
   return (
     <BackLayer>
       <ResultFrame>
