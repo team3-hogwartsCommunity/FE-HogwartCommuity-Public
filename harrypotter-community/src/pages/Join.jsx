@@ -7,8 +7,6 @@ import { SignUpData } from "../axios/api";
 import { house } from "./HouseResult";
 import { dormitory } from "./HouseSort";
 
-
-
 function Join() {
   // 회원가입 완료 후 시험으로 보내줄 네비함수 선언
   const navigate = useNavigate();
@@ -37,7 +35,7 @@ function Join() {
   const { mutate } = useMutation(SignUpData, {
     onSuccess: () => {
       alert("회원가입 성공!");
-      navigate("/")
+      navigate("/");
     },
 
     onError: () => {
@@ -49,7 +47,7 @@ function Join() {
       if (errorCode === "duplicate username") alert("중복된 아이디입니다.");
     },
   });
-  console.log(dormitory)
+  console.log(dormitory);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     alert(`id: ${user.userId}, password : ${user.password}`);
@@ -64,13 +62,12 @@ function Join() {
     } else {
       alert("빈칸없이 채워주세요!");
     }
-  }; 
-  
+  };
 
   return (
     <div>
       <JoinContainer>
-        <JoinFont>Get ready for Freshmen Oriebtation!!</JoinFont>
+        <JoinFont>Get ready for Freshmen Orientation!!</JoinFont>
         <JoinFormBox onSubmit={onSubmitHandler}>
           <JoinLineCenter>
             <JoinLabel>ID</JoinLabel>
